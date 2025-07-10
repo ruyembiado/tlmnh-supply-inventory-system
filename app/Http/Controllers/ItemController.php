@@ -77,7 +77,7 @@ class ItemController extends Controller
             'stock_no' => 'required|string|max:255|unique:items,stock_no,' . $id,
             'restock_point' => 'nullable|integer|min:0',
             'unit_cost' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:1',
+            'stock' => 'nullable|integer|min:1',
             'unit' => 'required|string|max:255',
             'description' => 'nullable|string',
             'remarks' => 'nullable|string',
@@ -85,7 +85,7 @@ class ItemController extends Controller
 
         $item = Item::findOrFail($id);
         $oldQty = $item->quantity;
-        $newQty = $request->quantity;
+        $newQty = $oldQty + $request->stock;
 
         $item->update([
             'item_name'   => $request->item_name,
@@ -93,7 +93,7 @@ class ItemController extends Controller
             'stock_no'    => $request->stock_no,
             'restock_point' => $request->restock_point,
             'unit_cost'   => $request->unit_cost,
-            'quantity'    => $request->quantity,
+            'quantity'    => $newQty,
             'unit'        => $request->unit,
             'description' => $request->description,
             'remarks'     => $request->remarks,

@@ -58,11 +58,11 @@
                                     </td> --}}
                                     <td>{{ $record->end_user ?? '' }}</td>
                                     <td>{{ $record->balance }}</td>
-                                    <td>{{ $record->purpose?? '' }}</td>
+                                    <td>{{ $record->purpose ?? '' }}</td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="9" class="text-center">No stock card records found.</td>
+                                    <td colspan="8" class="text-center">No stock card records found.</td>
                                 </tr>
                             @endforelse
                             <tr>

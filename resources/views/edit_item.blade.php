@@ -41,7 +41,15 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <input type="number" name="quantity" id="quantity"
+                                class="form-control @error('quantity') is-invalid @enderror" min="0"
+                                value="{{ $item->quantity }}" disabled>
+                            @error('quantity')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="mb-3">
                             <label for="restock_point" class="form-label">Restock Point (optional)</label>
                             <input type="number" name="restock_point" id="restock_point"
@@ -65,17 +73,16 @@
 
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="quantity" class="form-label">Quantity</label>
-                            <input type="number" name="quantity" id="quantity"
-                                class="form-control @error('quantity') is-invalid @enderror" min="0"
-                                value="{{ $item->quantity }}">
-                            @error('quantity')
+                            <label for="stock" class="form-label">Add Stock</label>
+                            <input type="number" name="stock" id="stock"
+                                class="form-control @error('stock') is-invalid @enderror" min="0" value="">
+                            @error('stock')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="mb-3">
-                            <label for="unit" class="form-label">Unit</label>
+                            <label for="unit" class="form-label">Unit of Measurement</label>
                             <input type="text" name="unit" id="unit"
                                 class="form-control @error('unit') is-invalid @enderror" placeholder="e.g. pcs, box"
                                 value="{{ $item->unit }}">

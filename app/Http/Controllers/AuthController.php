@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use Carbon\Carbon;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
@@ -30,7 +31,10 @@ class AuthController extends Controller
 
     public function dashboard()
     {
-        return view('dashboard');
+
+        $items = Item::all();
+
+        return view('dashboard', compact('items'));
     }
 
     public function logout()

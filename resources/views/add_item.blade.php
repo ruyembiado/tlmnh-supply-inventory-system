@@ -64,7 +64,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="unit" class="form-label">Unit</label>
+                            <label for="unit" class="form-label">Unit of Measurement</label>
                             <input type="text" name="unit" id="unit" class="form-control @error('unit') is-invalid @enderror" placeholder="e.g. pcs, box" value="{{ old('unit') }}">
                             @error('unit')
                                 <div class="invalid-feedback">{{ $message }}</div>

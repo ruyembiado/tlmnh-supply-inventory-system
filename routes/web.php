@@ -48,4 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/release-item', [ItemController::class, 'create_release'])->name('show.release');
     Route::post('/release-item', [ItemController::class, 'release'])->name('release.item');
     Route::get('/item/stock/{id}', [ItemController::class, 'get_item_stock'])->name('item.stock');
+
+    // Report
+    Route::get('/report', [ReportController::class, 'report'])->name('show.report');
 });
