@@ -82,7 +82,7 @@
                                 @foreach ($items as $item)
                                     @php
                                         $totalQuantity = $item->stockcard->sum('issue');
-                                        $unitCost = optional($item->first())->unit_cost ?? 0;
+                                        $unitCost = $item->unit_cost ?? 0;
                                         $totalCost = $totalQuantity * $unitCost;
                                     @endphp
                                     @if ($totalQuantity > 0)

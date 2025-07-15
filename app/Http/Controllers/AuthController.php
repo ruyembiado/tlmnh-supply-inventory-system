@@ -32,9 +32,17 @@ class AuthController extends Controller
     public function dashboard()
     {
 
-        $items = Item::all();
+        $items = Item::with('stockcard')->get();
+        $totalCost = 0;
 
-        return view('dashboard', compact('items'));
+        foreach ($items as $item) {
+            $totalQuantity = $item->stockcard->sum('issue');
+            $unitCost = $item->unit_cost ?? 0;
+            $itemTotalCost = $totalQuantity * $unitCost;
+            $totalCost += $itemTotalCost;
+        }
+
+        return view('dashboard', compact('items', 'totalCost'));
     }
 
     public function logout()
