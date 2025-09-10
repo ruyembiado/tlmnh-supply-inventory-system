@@ -25,7 +25,7 @@
                 <div class="col-10 m-auto d-flex justify-content-between flex-wrap align-items-center">
                     <div class="d-flex flex-wrap align-items-center">
                         <img src="{{ asset('public/img/sis-icon.png') }}" width="70" alt="sis-logo">
-                        <h5 class="ms-2 mb-0 text-dark">TLMH - Supply Inventory System</h5>
+                        <h5 class="ms-2 mb-0 text-dark">TLNMHS - Supply Inventory System</h5>
                     </div>
                     <div class="d-flex align-items-center gap-5">
                         @if (auth()->user())
@@ -65,7 +65,7 @@
 
             <footer class="footer py-2 shadow text-center bg-light text-dark">
                 <div class="m-auto">
-                    <div class="">© 2025 TLMH - Supply Inventory System. All rights reserved.</div>
+                    <div class="">© 2025 TLNMHS. All rights reserved.</div>
                 </div>
             </footer>
         </div>
