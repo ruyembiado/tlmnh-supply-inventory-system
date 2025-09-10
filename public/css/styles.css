@@ -295,11 +295,11 @@ h1.home-title {
 
 @media print {
     #print-stockcard, #print-section {
-        font-size: 2vw;
+        font-size: 1.5vw !important;
         /* scales based on page width */
     }
 
-    table#print-stockcard, table#print-section {
+    #print-stockcard, #print-section {
         width: 100%;
         /* make sure table takes available width */
     }
