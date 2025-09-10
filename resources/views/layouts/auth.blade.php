@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TLMH - SIS</title>
+    <title>TLNMHS</title>
 
     <!-- Bootstrap Style -->
     <link href="{{ asset('public/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -32,7 +32,7 @@
                     </a>
                 </div>
                 <div class="sidebar-logo">
-                    <a href="{{ url('/dashboard') }}">TLMH SIS</a>
+                    <a href="{{ url('/dashboard') }}">TLNMHS</a>
                 </div>
             </div>
             <ul class="sidebar-nav">
@@ -60,6 +60,12 @@
                         <span>Release Item</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a href="{{ url('/released-items') }}" class="sidebar-link">
+                        <i class="fas fa-list-alt"></i>
+                        <span>Released Items</span>
+                    </a>
+                </li>
                 {{-- <li class="sidebar-item">
                     <a href="{{ url('/released-items') }}" class="sidebar-link">
                         <i class="fas fa-truck-loading"></i>
@@ -73,7 +79,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{{ url('/report') }}" class="sidebar-link">
+                    <a href="{{ url('/report?year=' . now()->year . '&month=' . now()->month) }}" class="sidebar-link">
                         <i class="fas fa-file-invoice"></i>
                         <span>Report</span>
                     </a>
@@ -129,7 +135,7 @@
             </main>
             <footer class="footer py-3 shadow text-center">
                 <div class="d-flex justify-content-center px-3">
-                    <div class="">© 2025 TLMH - Supply Inventory System. All rights reserved.</div>
+                    <div class="">© 2025 TLNMHS. All rights reserved.</div>
                 </div>
             </footer>
         </div>

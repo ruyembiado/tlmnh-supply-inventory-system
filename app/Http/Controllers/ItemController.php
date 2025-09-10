@@ -136,6 +136,7 @@ class ItemController extends Controller
             'end_user' => 'required|string',
             'purpose' => 'nullable|string',
             'reference' => 'nullable|string',
+            'release_date' => 'required|date',
         ]);
 
         $item = Item::findOrFail($request->item_name);
@@ -154,6 +155,7 @@ class ItemController extends Controller
             'end_user'   => $request->end_user,
             'purpose'   => $request->purpose,
             'reference' => $request->reference,
+            'release_date' => $request->release_date ?? now()->toDateString(),
         ]);
 
         return redirect()->back()->with('success', 'Item released successfully.');
@@ -168,5 +170,15 @@ class ItemController extends Controller
         }
 
         return response()->json(['stock' => $item->quantity]);
+    }
+
+    public function released()
+    {
+        $releasedItems = Stockcard::where('type', 'OUT')
+            ->orderBy('created_at', 'desc')
+            ->with('item')
+            ->get();
+
+        return view('released_item', compact('releasedItems'));
     }
 }

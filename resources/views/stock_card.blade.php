@@ -18,7 +18,7 @@
                             <th>Item Name</th>
                             <th>Category</th>
                             <th>Unit</th>
-                            <th>Date Added</th>
+                            <th>Date Created</th>
                             <th>Action</th>
                         </tr>
                     </thead>

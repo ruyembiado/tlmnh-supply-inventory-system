@@ -83,10 +83,10 @@ main.content {
     display: none;
 }
 
-#sidebar.expand .sidebar-logo,
+/* #sidebar.expand .sidebar-logo,
 #sidebar.expand a.sidebar-link span {
-    /* animation: fadeIn .25s ease; */
-}
+    animation: fadeIn .25s ease;
+} */
 
 @keyframes fadeIn {
     0% {
@@ -189,9 +189,9 @@ nav {
     margin-bottom: 30px;
 }
 
-.shadow {
-    /* --bs-box-shadow: 0 0.3rem 1.5rem rgba(33, 37, 41, .1); */
-}
+/* .shadow {
+    --bs-box-shadow: 0 0.3rem 1.5rem rgba(33, 37, 41, .1);
+} */
 
 .dash-icon {
     font-size: 30px;
@@ -294,6 +294,21 @@ h1.home-title {
 }
 
 @media print {
+    #print-stockcard, #print-section {
+        font-size: 2vw;
+        /* scales based on page width */
+    }
+
+    table#print-stockcard, table#print-section {
+        width: 100%;
+        /* make sure table takes available width */
+    }
+
+    #print-stockcard *, #print-section * {
+        font-size: inherit !important;
+        /* inherit scaling */
+    }
+
     .print-footer {
         position: fixed;
         bottom: 0;

@@ -39,6 +39,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/view-item/{id}', [ItemController::class, 'show'])->name('show.item');
     Route::put('/update-item/{id}', [ItemController::class, 'update'])->name('update.item');
     Route::delete('/delete-item/{id}', [ItemController::class, 'destroy'])->name('destroy.item');
+    Route::get('/released-items', [ItemController::class, 'released'])->name('released.items');
 
     // Stock Cards
     Route::get('/stock-cards', [StockCardController::class, 'index'])->name('index.stockcards');

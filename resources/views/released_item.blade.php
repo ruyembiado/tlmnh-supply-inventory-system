@@ -4,7 +4,7 @@
     <!-- Start the content section -->
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text">Items</h1>
+        <h1 class="h3 mb-0 text">Released Items</h1>
     </div>
 
     <!-- Content Row -->
@@ -19,32 +19,35 @@
                             {{-- <th>Category</th> --}}
                             <th>Quantity</th>
                             <th>Unit</th>
-                            <th>Description</th>
-                            {{-- <th>Remark</th> --}}
-                            <th>Date Created</th>
-                            <th>Action</th>
+                            <th>Purpose</th>
+                            <th>Office/End-User</th>
+                            <th>Release Date</th>
+                            {{-- <th>Action</th> --}}
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($items as $item)
+                        @foreach ($releasedItems as $releasedItem)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->item_name }}</td>
-                                {{-- <td>{{ $item->category }}</td> --}}
-                                <td>{{ $item->quantity }}</td>
-                                <td>{{ $item->unit }}</td>
-                                <td>{{ $item->description }}</td>
-                                {{-- <td>{{ $item->remarks }}</td> --}}
-                                <td>{{ $item->created_at->format('F d, Y') }}</td>
+                                <td>{{ $releasedItem->item->item_name }}</td>
+                                {{-- <td>{{ $releasedItem->item->category }}</td> --}}
+                                <td>{{ $releasedItem->issue }}</td>
+                                <td>{{ $releasedItem->item->unit }}</td>
+                                <td>{{ $releasedItem->purpose }}</td>
+                                <td>{{ $releasedItem->end_user }}</td>
                                 <td>
+                                    {{ $releasedItem->release_date ? \Carbon\Carbon::parse($releasedItem->release_date)->format('F d, Y') : '' }}
+                                </td>
+
+                                {{-- <td>
                                     <div class="d-flex align-items-center justify-c gap-2">
-                                         <a href="{{ route('show.item', $item->id) }}" class="btn btn-secondary btn-sm">
+                                         <a href="{{ route('show.item', $releasedItem->item->id) }}" class="btn btn-secondary btn-sm">
                                             View
                                         </a>
-                                        <a href="{{ route('edit.item', $item->id) }}" class="btn btn-warning btn-sm">
+                                        <a href="{{ route('edit.item', $releasedItem->item->id) }}" class="btn btn-warning btn-sm">
                                             Edit
                                         </a>
-                                        <form action="{{ route('destroy.item', $item->id) }}" method="POST">
+                                        <form action="{{ route('destroy.item', $releasedItem->item->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
@@ -53,7 +56,7 @@
                                             </button>
                                         </form>
                                     </div>
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>

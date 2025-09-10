@@ -2,7 +2,7 @@
 @section('content')
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0">Yearly Report</h1>
+        <h1 class="h3 mb-0">Report</h1>
     </div>
 
     <div class="card shadow mb-4">
@@ -10,7 +10,7 @@
             <div class="d-flex justify-content-between align-items-start mb-4">
                 <form method="GET" action="{{ route('show.report') }}" class="d-print-none col-md-3">
                     <div class="row g-2 align-items-center">
-                        <div class="d-flex flex-column col-md-6">
+                        <div class="d-flex flex-column col-md-4">
                             <label for="year" class="form-label mb-0">Select Year:</label>
                             <select name="year" id="year" class="form-control form-control-sm"
                                 onchange="this.form.submit()">
@@ -19,6 +19,17 @@
                                         {{ request('year', $selected_year) == $y ? 'selected' : '' }}>{{ $y }}
                                     </option>
                                 @endfor
+                            </select>
+                        </div>
+                        <div class="d-flex flex-column col-md-5">
+                            <label for="month" class="form-label mb-0">Select Month:</label>
+                            <select name="month" id="month" class="form-control form-control-sm"
+                                onchange="this.form.submit()">
+                                @foreach (range(1, 12) as $month)
+                                    <option value="{{ $month }}" {{ $selected_month == $month ? 'selected' : '' }}>
+                                        {{ \Carbon\Carbon::create()->month($month)->format('F') }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -44,11 +55,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="pb-2">
-                            Entity Name: <span class="border-bottom border-dark">Tario Lim National Memorial High School</span>
+                        <td colspan="2" class="pb-2">
+                            Entity Name: <span class="border-bottom border-dark">Tario Lim National Memorial High
+                                School</span>
                         </td>
                         <td class="pb-2">
                             Year:<span class="border-bottom border-dark">{{ $selected_year }}</span>
+                        </td>
+                        <td class="pb-2">
+                            Month:<span class="border-bottom border-dark">{{ \Carbon\Carbon::create()->month($selected_month)->format('F') }}</span>
                         </td>
                     </tr>
                 </table>
@@ -63,6 +78,7 @@
                                 <th>Quantity Issued</th>
                                 <th>Unit Cost</th>
                                 <th>Amount</th>
+                                <th>Release Date</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
@@ -76,7 +92,7 @@
                             @endphp
                             @if (!$hasData)
                                 <tr>
-                                    <td colspan="7" class="text-center">No data available for this year.</td>
+                                    <td colspan="8" class="text-center">No data available for this year and month.</td>
                                 </tr>
                             @else
                                 @foreach ($items as $item)
@@ -93,6 +109,11 @@
                                             <td>{{ $totalQuantity }}</td>
                                             <td>{{ number_format($unitCost, 2) }}</td>
                                             <td>{{ number_format($totalCost, 2) }}</td>
+                                            <td>
+                                                {{ optional($item->stockcard->first())->release_date
+                                                    ? \Carbon\Carbon::parse($item->stockcard->first()->release_date)->format('F d, Y')
+                                                    : '' }}
+                                            </td>
                                             <td>{{ number_format($totalCost, 2) }}</td>
                                         </tr>
                                     @endif
@@ -112,7 +133,7 @@
                 type: 'html',
                 css: [
                     '{{ asset('/public/css/styles.css') }}',
-                    'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css'
+                    '{{ asset('public/css/bootstrap.min.css') }}'
                 ],
             });
         }

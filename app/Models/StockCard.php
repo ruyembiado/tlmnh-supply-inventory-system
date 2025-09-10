@@ -22,6 +22,7 @@ class StockCard extends Model
         'reference',
         'end_user',
         'purpose',
+        'release_date',
     ];
 
     public function item()

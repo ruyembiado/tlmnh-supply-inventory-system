@@ -68,6 +68,15 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        <div class="mb-3">
+                            <label for="release_date" class="form-label">Release Date</label>
+                            <input type="date" name="release_date" id="release_date"
+                                class="form-control @error('release_date') is-invalid @enderror"
+                                value="{{ old('release_date') ?? today()->toDateString() }}">
+                            @error('release_date')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                 </div>
                 <div class="mt-3">
