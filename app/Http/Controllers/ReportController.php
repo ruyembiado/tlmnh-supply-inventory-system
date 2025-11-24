@@ -11,7 +11,7 @@ class ReportController extends Controller
     public function report(Request $request)
     {
         $selected_year = $request->input('year') ?? Carbon::now()->year;
-        $selected_month = $request->input('month'); 
+        $selected_month = $request->input('month');
 
         if ($selected_month) {
             // filter by specific month
@@ -28,6 +28,19 @@ class ReportController extends Controller
                 ->whereBetween('release_date', [$startDate, $endDate]);
         }])->orderBy('release_date', 'desc')->get();
 
-        return view('report', compact('items', 'selected_year', 'selected_month'));
+        $recap = $items->filter(fn($item) => $item->stockcard->sum('issue') > 0)
+            ->groupBy('stock_no')
+            ->map(function ($group) {
+                $quantity = $group->sum(fn($i) => $i->stockcard->sum('issue'));
+                $unitCost = $group->first()->unit_cost ?? 0;
+                return [
+                    'stock_no'  => $group->first()->stock_no,
+                    'quantity'  => $quantity,
+                    'unit_cost' => $unitCost,
+                    'total_cost' => $quantity * $unitCost,
+                ];
+            });
+
+        return view('report', compact('items', 'recap', 'selected_year', 'selected_month'));
     }
 }

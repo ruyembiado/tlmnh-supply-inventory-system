@@ -28,7 +28,8 @@ body {
 }
 
 main.content {
-    height: 100%;
+    min-height: fit-content;
+    height: 100vh;
 }
 
 .main {
@@ -293,18 +294,60 @@ h1.home-title {
     z-index: 2;
 }
 
+#print-section .main-report-table table {
+    border-collapse: collapse;
+}
+
+#print-section .main-report-table table tbody td {
+    border-bottom: none !important;
+    border-top: none !important;
+}
+
+#print-section .main-report-table table tbody td {
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+}
+
+#print-section .main-report-table table thead th {
+    border: 2px solid #000;
+}
+
+#print-section .main-report-table td.full-border {
+    border: 2px solid #000 !important;
+}
+
+#print-section .main-report-table td.top-border {
+    border-top: 2px solid #000 !important;
+}
+
+#print-section .main-report-table td.bottom-border {
+    border-bottom: 2px solid #000 !important;
+}
+
+#print-section .main-report-table td.right-border-none {
+    border-right: 2px solid #fff !important;
+}
+
+#print-section .main-report-table table {
+    --bs-table-border-color: #fff !important;
+}
+
 @media print {
-    #print-stockcard, #print-section {
+
+    #print-stockcard,
+    #print-section {
         font-size: 1.5vw !important;
         /* scales based on page width */
     }
 
-    #print-stockcard, #print-section {
+    #print-stockcard,
+    #print-section {
         width: 100%;
         /* make sure table takes available width */
     }
 
-    #print-stockcard *, #print-section * {
+    #print-stockcard *,
+    #print-section * {
         font-size: inherit !important;
         /* inherit scaling */
     }
@@ -314,4 +357,9 @@ h1.home-title {
         bottom: 0;
         right: 0;
     }
+
+    input.report-input {
+        border: none !important;
+    }
+
 }

@@ -43,81 +43,171 @@
             </div>
 
             <div id="print-section">
-                <table class="report-header m-auto" width="100%" cellspacing="0" cellpadding="0"
-                    style="border-collapse: collapse;">
+                <!-- Header Section -->
+                <table class="report-header m-auto mb-2" width="100%" cellspacing="0" cellpadding="0">
                     <tr>
-                        <td colspan="2" style="vertical-align: middle;" class="text-center">
-                            <div class="d-flex align-items-center justify-content-center gap-1">
-                                <div class="company-text">
-                                    <h4 class="mb-4">REPORT OF SUPPLIES AND MATERIAL ISSUED</h4>
-                                </div>
-                            </div>
+                        <td colspan="8" class="text-center">
+                            <h4 class="fw-bold mb-0">REPORT OF SUPPLIES AND MATERIALS ISSUED</h4>
+                            <h5 class="mb-3">{{ \Carbon\Carbon::create()->month($month)->format('F') }}
+                                {{ $selected_year }} JUNIOR HS</h5>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="pb-2">
-                            Entity Name: <span class="border-bottom border-dark">Tario Lim National Memorial High
-                                School</span>
+                        <td colspan="3" class="pb-2">Entity Name:
+                            <span class="border-bottom border-dark">Tario Lim National Memorial High School</span>
                         </td>
-                        <td class="pb-2">
-                            Year:<span class="border-bottom border-dark">{{ $selected_year }}</span>
+                        <td colspan="2" class="pb-2">Serial No.:
+                            <span class="border-bottom border-dark">
+                                -
+                            </span>
                         </td>
-                        <td class="pb-2">
-                            Month:<span class="border-bottom border-dark">{{ \Carbon\Carbon::create()->month($selected_month)->format('F') }}</span>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="pb-2">Fund Cluster:
+                            <span class="border-bottom border-dark">---</span>
+                        </td>
+                        <td colspan="2" class="pb-2">Date:
+                            <span class="border-bottom border-dark">
+                                {{ \Carbon\Carbon::today()->format('m/d/Y') }}
+                            </span>
                         </td>
                     </tr>
                 </table>
 
-                <div class="table-responsive">
-                    <table class="table table-bordered" width="100%" cellspacing="0">
+                <div class="table-responsive main-report-table">
+                    <table class="table table-bordered text-center align-middle" width="100%" cellspacing="0"
+                        cellpadding="3" style="border-collapse: collapse;">
                         <thead class="">
                             <tr>
-                                <th>Stock No.</th>
-                                <th>Item</th>
-                                <th>Unit of Measurement</th>
-                                <th>Quantity Issued</th>
-                                <th>Unit Cost</th>
-                                <th>Amount</th>
-                                <th>Release Date</th>
-                                <th>Total</th>
+                                <td colspan="6" class="full-border"><i>To be filled up by the Supply and/or Property Division/Unit</i></td>
+                                <td colspan="2" class="full-border"><i>To be filled up by the Accounting Division/Unit</i></td>
+                            </tr>
+                            <tr>
+                                <th style="vertical-align: middle">RIS No.</th>
+                                <th style="vertical-align: middle">Responsibility <br> Center Code</th>
+                                <th style="vertical-align: middle">Stock No.</th>
+                                <th style="vertical-align: middle">Item</th>
+                                <th style="vertical-align: middle">Unit</th>
+                                <th style="vertical-align: middle">Quantity <br> Issued</th>
+                                <th style="vertical-align: middle">Unit Cost</th>
+                                <th style="vertical-align: middle">Amount</th>
                             </tr>
                         </thead>
                         <tbody>
                             @php
-                                $hasData = $items
-                                    ->filter(function ($item) {
-                                        return $item->stockcard->sum('issue') > 0;
-                                    })
-                                    ->isNotEmpty();
+                                $grandTotal = 0;
+
+                                // Filter items where issued > 0
+                                $filteredItems = $items->filter(function ($item) {
+                                    return $item->stockcard->sum('issue') > 0;
+                                });
                             @endphp
-                            @if (!$hasData)
+
+                            {{-- If no filtered data --}}
+                            @if ($filteredItems->count() == 0)
                                 <tr>
-                                    <td colspan="8" class="text-center">No data available for this year and month.</td>
+                                    <td colspan="8" class="text-center text-dark full-border">
+                                        No data available for this month and year.
+                                    </td>
                                 </tr>
                             @else
-                                @foreach ($items as $item)
+                                {{-- Loop filtered items --}}
+                                @foreach ($filteredItems as $item)
                                     @php
-                                        $totalQuantity = $item->stockcard->sum('issue');
+                                        $totalIssued = $item->stockcard->sum('issue');
+                                        $balance = $item->stockcard->sum('balance');
                                         $unitCost = $item->unit_cost ?? 0;
-                                        $totalCost = $totalQuantity * $unitCost;
+                                        $totalCost = $totalIssued * $unitCost;
+                                        $grandTotal += $totalCost;
                                     @endphp
-                                    @if ($totalQuantity > 0)
-                                        <tr>
-                                            <td>{{ $item->stock_no }}</td>
-                                            <td>{{ $item->item_name }}</td>
-                                            <td>{{ $item->unit }}</td>
-                                            <td>{{ $totalQuantity }}</td>
-                                            <td>{{ number_format($unitCost, 2) }}</td>
-                                            <td>{{ number_format($totalCost, 2) }}</td>
-                                            <td>
-                                                {{ optional($item->stockcard->first())->release_date
-                                                    ? \Carbon\Carbon::parse($item->stockcard->first()->release_date)->format('F d, Y')
-                                                    : '' }}
-                                            </td>
-                                            <td>{{ number_format($totalCost, 2) }}</td>
-                                        </tr>
-                                    @endif
+
+                                    <tr>
+                                        <td style="border-bottom: none !important;">---</td>
+                                        <td style="border-bottom: none !important;">---</td>
+                                        <td style="border-bottom: none !important;">{{ $item->stock_no }}</td>
+                                        <td style="border-bottom: none !important;" class="text-start">{{ $item->item_name }}</td>
+                                        <td style="border-bottom: none !important;">{{ $item->unit }}</td>
+                                        <td style="border-bottom: none !important;">{{ $totalIssued }}</td>
+                                        <td style="border-bottom: none !important;">₱ {{ number_format($unitCost, 2) }}</td>
+                                        <td style="border-bottom: none !important;">₱ {{ number_format($totalCost, 2) }}</td>
+                                    </tr>
                                 @endforeach
+                            @endif
+                            @if (!$filteredItems->count() == 0)
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td colspan="2" class="fw-bold full-border">Recapitulation:</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td colspan="3" class="fw-bold full-border">Recapitulation:</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td class="fw-bold full-border">Stock No.</td>
+                                    <td class="fw-bold full-border">Quantity</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="fw-bold full-border">Unit Cost</td>
+                                    <td class="fw-bold full-border">Total Cost</td>
+                                    <td class="fw-bold full-border">UACS Object Code</td>
+                                </tr>
+                                @foreach ($recap as $row)
+                                    <tr>
+                                        <td></td>
+                                        <td>{{ $row['stock_no'] }}</td>
+                                        <td>{{ $row['quantity'] }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>₱ {{ number_format($row['unit_cost'], 2) }}</td>
+                                        <td>₱ {{ number_format($row['total_cost'], 2) }}</td>
+                                        <td>---</td>
+                                    </tr>
+                                @endforeach
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>₱ {{ number_format($recap->sum('total_cost'), 2) }}</td>
+                                    <td></td>
+                                </tr>
+
+                                {{-- Footer --}}
+                                <tr>
+                                    <td colspan="5" class="pb-5 text-center top-border">I hereby certify to the correctness of the
+                                        above information.</td>
+                                    <td colspan="3" class="top-border"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <input oninput="this.value = this.value.toUpperCase()" class="w-100 pt-0 report-input form-control text-center" type="text" value="JEFRY J. TILBE" />
+                                    </td>
+                                    <td colspan="2" class="text-center right-border-none">
+                                        <input oninput="this.value = this.value.toUpperCase()" class="w-100 pt-0 report-input form-control text-center" type="text" value="RIZA LEAH B. SIANSON" />
+                                    </td>
+                                    <td colspan="1" class="text-center">
+                                        <span class="border-bottom border-dark">{{ \Carbon\Carbon::today()->format('m/d/Y') }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" style="vertical-align: top;" class="text-center bottom-border pb-3 pt-0">Signature over
+                                        Printed Name of Supply and/or Property Custodian</td>
+                                    <td colspan="2" style="vertical-align: top;" class="text-center bottom-border pb-3 pt-0 right-border-none">Signature over
+                                        Printed Name of <br> Designated Accounting Staff</td>
+                                    <td colspan="1" style="vertical-align: top;" class="text-center bottom-border pb-3 pt-0">Date</td>
+                                </tr>
                             @endif
                         </tbody>
                     </table>
@@ -132,9 +222,10 @@
                 printable: 'print-section',
                 type: 'html',
                 css: [
-                    '{{ asset('/public/css/styles.css') }}',
-                    '{{ asset('public/css/bootstrap.min.css') }}'
+                    '{{ asset('public/css/bootstrap.min.css') }}',
+                    '{{ asset('public/css/styles.css') }}'
                 ],
+                scanStyles: false
             });
         }
     </script>
