@@ -37,19 +37,19 @@
                                 {{-- <td>{{ $item->remarks }}</td> --}}
                                 <td>{{ $item->created_at->format('F d, Y') }}</td>
                                 <td>
-                                    <div class="d-flex align-items-center justify-c gap-2">
-                                         <a href="{{ route('show.item', $item->id) }}" class="btn btn-secondary btn-sm">
-                                            View
+                                    <div class="d-flex align-items-center justify-content-start gap-2">
+                                        <a href="{{ route('show.item', $item->id) }}" class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-eye"></i>
                                         </a>
                                         <a href="{{ route('edit.item', $item->id) }}" class="btn btn-warning btn-sm">
-                                            Edit
+                                            <i class="fas fa-edit"></i>
                                         </a>
                                         <form action="{{ route('destroy.item', $item->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm"
                                                 onclick="return confirm('Are you sure you want to delete this item?')">
-                                                Delete
+                                                <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </form>
                                     </div>

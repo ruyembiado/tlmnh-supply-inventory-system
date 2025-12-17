@@ -19,6 +19,12 @@
                             value="{{ $item->item_name }}">
                     </div>
                     <div class="mb-3">
+                        <label for="supplier_name" class="form-label">Supplier Name</label>
+                        <input type="text" name="supplier_name" id="supplier_name"
+                            class="form-control @error('supplier_name') is-invalid @enderror" readonly
+                            value="{{ $item->supplier_name }}">
+                    </div>
+                    <div class="mb-3">
                         <label for="category" class="form-label">Category</label>
                         <input type="text" name="category" id="category"
                             class="form-control @error('category') is-invalid @enderror" readonly

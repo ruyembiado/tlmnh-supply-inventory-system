@@ -23,6 +23,7 @@ class ItemController extends Controller
     {
         $request->validate([
             'item_name' => 'required|string|max:255',
+            'supplier_name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'stock_no' => 'required|string|unique:items,stock_no|max:255',
             'restock_point' => 'nullable|integer|min:0',
@@ -35,6 +36,7 @@ class ItemController extends Controller
 
         $item = Item::create([
             'item_name'   => $request->item_name,
+            'supplier_name'   => $request->supplier_name,
             'category'    => $request->category,
             'stock_no'    => $request->stock_no,
             'restock_point' => $request->restock_point,
@@ -73,6 +75,7 @@ class ItemController extends Controller
     {
         $request->validate([
             'item_name' => 'required|string|max:255',
+            'supplier_name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'stock_no' => 'required|string|max:255|unique:items,stock_no,' . $id,
             'restock_point' => 'nullable|integer|min:0',
@@ -89,6 +92,7 @@ class ItemController extends Controller
 
         $item->update([
             'item_name'   => $request->item_name,
+            'supplier_name'   => $request->supplier_name,
             'category'    => $request->category,
             'stock_no'    => $request->stock_no,
             'restock_point' => $request->restock_point,

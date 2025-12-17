@@ -33,7 +33,7 @@
                                 <td>
                                     <div class="d-flex align-items-center justify-c gap-2">
                                         <a href="{{ route('show.stockcard', $item->id) }}" class="btn btn-secondary btn-sm">
-                                            View Stock Card
+                                            <i class="fas fa-eye"></i>
                                         </a>
                                     </div>
                                 </td>
