@@ -37,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/add-item', [ItemController::class, 'store'])->name('store.item');
     Route::get('/edit-item/{id}', [ItemController::class, 'edit'])->name('edit.item');
     Route::get('/view-item/{id}', [ItemController::class, 'show'])->name('show.item');
-    Route::put('/update-item/{id}', [ItemController::class, 'update'])->name('update.item');
+    Route::put('/update-item', [ItemController::class, 'update'])->name('update.item');
     Route::delete('/delete-item/{id}', [ItemController::class, 'destroy'])->name('destroy.item');
     Route::get('/released-items', [ItemController::class, 'released'])->name('released.items');
 

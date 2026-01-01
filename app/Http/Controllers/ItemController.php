@@ -56,7 +56,7 @@ class ItemController extends Controller
             'purpose' => 'Initial stock',
         ]);
 
-        return redirect('/add-item')->with('success', 'Item added successfully.');
+        return redirect()->back()->with('success', 'Item added successfully.');
     }
 
     public function edit($id)
@@ -71,24 +71,26 @@ class ItemController extends Controller
         return view('view_item', compact('item'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $request->validate([
             'item_name' => 'required|string|max:255',
             'supplier_name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
-            'stock_no' => 'required|string|max:255|unique:items,stock_no,' . $id,
-            'restock_point' => 'nullable|integer|min:0',
-            'unit_cost' => 'required|numeric|min:0',
-            'stock' => 'nullable|integer|min:1',
+            'stock_no' => 'required|string|max:255|unique:items,stock_no,' . $request->item_id,
+            'restock_point' => 'nullable|integer',
+            'unit_cost' => 'required|numeric',
+            'stock' => 'nullable|integer',
             'unit' => 'required|string|max:255',
             'description' => 'nullable|string',
             'remarks' => 'nullable|string',
         ]);
 
-        $item = Item::findOrFail($id);
+        $item = Item::findOrFail($request->item_id);
+
         $oldQty = $item->quantity;
-        $newQty = $oldQty + $request->stock;
+        $addedStock = $request->stock ?? 0; 
+        $newQty = $oldQty + $addedStock;
 
         $item->update([
             'item_name'   => $request->item_name,

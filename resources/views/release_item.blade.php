@@ -32,7 +32,7 @@
                         <div class="mb-3">
                             <label for="quantity" class="form-label">Quantity</label>
                             <div class="mb-2">
-                                <span id="remaining-stock" class="text-muted">Remaining stock: <span>0</span></span>
+                                <span id="remaining-stock" class="text-muted">Remaining stock: <span class="fw-bold">0</span></span>
                             </div>
 
                             <input type="number" name="quantity" id="quantity"

@@ -17,7 +17,7 @@
                             <th>No.</th>
                             <th>Item Name</th>
                             {{-- <th>Category</th> --}}
-                            <th>Quantity</th>
+                            <th>Current Stock</th>
                             <th>Unit</th>
                             <th>Description</th>
                             {{-- <th>Remark</th> --}}
@@ -38,12 +38,18 @@
                                 <td>{{ $item->created_at->format('F d, Y') }}</td>
                                 <td>
                                     <div class="d-flex align-items-center justify-content-start gap-2">
-                                        <a href="{{ route('show.item', $item->id) }}" class="btn btn-secondary btn-sm">
+                                        <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#itemModal{{ $item->id }}">
                                             <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="{{ route('edit.item', $item->id) }}" class="btn btn-warning btn-sm">
+                                        </button>
+                                        @include('includes.view-item', ['item' => $item])
+
+                                        <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#editItemModal-{{ $item->id }}">
                                             <i class="fas fa-edit"></i>
                                         </a>
+                                        @include('includes.update-item', ['item' => $item])
+
                                         <form action="{{ route('destroy.item', $item->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
