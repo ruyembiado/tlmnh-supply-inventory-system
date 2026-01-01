@@ -31,7 +31,7 @@ class ItemController extends Controller
             'quantity' => 'required|integer|min:1',
             'unit' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'remarks' => 'nullable|string',
+            // 'remarks' => 'nullable|string',
         ]);
 
         $item = Item::create([
@@ -44,7 +44,7 @@ class ItemController extends Controller
             'quantity'    => $request->quantity,
             'unit'        => $request->unit,
             'description' => $request->description,
-            'remarks'     => $request->remarks,
+            // 'remarks'     => $request->remarks,
         ]);
 
         StockCard::create([
@@ -83,7 +83,7 @@ class ItemController extends Controller
             'stock' => 'nullable|integer',
             'unit' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'remarks' => 'nullable|string',
+            // 'remarks' => 'nullable|string',
         ]);
 
         $item = Item::findOrFail($request->item_id);
@@ -102,7 +102,7 @@ class ItemController extends Controller
             'quantity'    => $newQty,
             'unit'        => $request->unit,
             'description' => $request->description,
-            'remarks'     => $request->remarks,
+            // 'remarks'     => $request->remarks,
         ]);
 
         if ($newQty != $oldQty) {

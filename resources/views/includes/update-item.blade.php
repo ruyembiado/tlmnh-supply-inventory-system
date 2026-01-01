@@ -72,10 +72,10 @@
                             <textarea name="description" class="form-control" rows="2">{{ $item->description }}</textarea>
                         </div>
 
-                        <div class="col-md-4 mb-3">
+                        {{-- <div class="col-md-4 mb-3">
                             <label class="form-label">Remarks</label>
                             <textarea name="remarks" class="form-control" rows="2">{{ $item->remarks }}</textarea>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>

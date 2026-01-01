@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\StockCard;
 use Carbon\Carbon;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
@@ -31,18 +32,45 @@ class AuthController extends Controller
 
     public function dashboard()
     {
-
         $items = Item::with('stockcard')->get();
-        $totalCost = 0;
 
+        /* TOTAL CAPITAL */
+        $totalCost = 0;
         foreach ($items as $item) {
             $totalQuantity = $item->stockcard->sum('issue');
             $unitCost = $item->unit_cost ?? 0;
-            $itemTotalCost = $totalQuantity * $unitCost;
-            $totalCost += $itemTotalCost;
+            $totalCost += $totalQuantity * $unitCost;
         }
 
-        return view('dashboard', compact('items', 'totalCost'));
+        $year = now()->year;
+
+        /* MONTHLY CAPITAL */
+        $monthlyCapital = array_fill(1, 12, 0);
+
+        /* MONTHLY ITEM RELEASE COUNT */
+        $monthlyItems = array_fill(1, 12, 0);
+
+        $stockcards = Stockcard::with('item')
+            ->whereYear('created_at', $year)
+            ->get();
+
+        foreach ($stockcards as $stock) {
+            $month = Carbon::parse($stock->created_at)->month;
+
+            // Capital
+            $unitCost = $stock->item->unit_cost ?? 0;
+            $monthlyCapital[$month] += $stock->issue * $unitCost;
+
+            // Items released
+            $monthlyItems[$month] += $stock->issue;
+        }
+
+        return view('dashboard', compact(
+            'items',
+            'totalCost',
+            'monthlyCapital',
+            'monthlyItems'
+        ));
     }
 
     public function logout()

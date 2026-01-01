@@ -159,6 +159,9 @@
     <!-- Fontawesome Script -->
     <script src="{{ asset('public/js/all.min.js') }}"></script>
     {{-- <script src="{{ asset('public/js/fontawesome.min.js') }}"></script> --}}
+
+    <!-- Chart Script -->
+    <script src="{{ asset('public/js/chart.js') }}"></script>
     <!-- Select2 Script -->
     <script src="{{ asset('public/js/select2.min.js') }}"></script>
 
