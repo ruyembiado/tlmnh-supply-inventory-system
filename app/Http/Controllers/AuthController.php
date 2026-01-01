@@ -50,6 +50,8 @@ class AuthController extends Controller
         /* MONTHLY ITEM RELEASE COUNT */
         $monthlyItems = array_fill(1, 12, 0);
 
+        $totalReleasedItems = Stockcard::sum('issue');
+
         $stockcards = Stockcard::with('item')
             ->whereYear('created_at', $year)
             ->get();
@@ -69,7 +71,8 @@ class AuthController extends Controller
             'items',
             'totalCost',
             'monthlyCapital',
-            'monthlyItems'
+            'monthlyItems',
+            'totalReleasedItems'
         ));
     }
 

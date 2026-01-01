@@ -55,6 +55,25 @@
                         <div class="row align-items-center justify-content-between">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
+                                    Items Released</div>
+                                <div class="h3 mb-0 font-weight-bold text-primary">{{ number_format($totalReleasedItems) }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fa fa-box fa-2x text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="d-flex h-100 flex-column justify-content-between">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
                                     Capital Spent</div>
                                 <div class="h3 mb-0 font-weight-bold text-primary">{{ $totalCost }}</div>
                             </div>
@@ -153,7 +172,7 @@
             <div class="card shadow h-100 py-2">
                 <div class="card-body">
                     <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
-                        Items Released Per Month ({{ now()->year }})
+                        Items Released ({{ now()->year }})
                     </div>
                     <canvas id="itemsChart" height="100"></canvas>
                 </div>
