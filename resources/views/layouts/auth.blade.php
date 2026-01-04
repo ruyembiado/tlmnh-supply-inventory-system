@@ -85,10 +85,33 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{{ url('/report?year=' . now()->year . '&month=' . now()->month) }}" class="sidebar-link">
+                    <a href="#reportDropdown" class="sidebar-link collapsed" data-bs-toggle="collapse"
+                        aria-expanded="false">
                         <i class="fas fa-file-invoice"></i>
                         <span>Report</span>
                     </a>
+
+                    <ul class="collapse list-unstyled" id="reportDropdown">
+                        <li class="sidebar-item bg-secondary">
+                            <a href="{{ url('/report-sami?year=' . now()->year . '&month=' . now()->month) }}"
+                                class="sidebar-link">
+                                <i class="fas fa-file-lines"></i>
+                                <span>Supplies And Materials Issued</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item bg-secondary">
+                            <a href="#" class="sidebar-link">
+                                <i class="fas fa-file-lines"></i>
+                                <span>Requisition</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item bg-secondary">
+                            <a href="#" class="sidebar-link">
+                                <i class="fas fa-file-lines"></i>
+                                <span>Frequently Requested Items</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </aside>

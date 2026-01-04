@@ -67,12 +67,76 @@ class AuthController extends Controller
             $monthlyItems[$month] += $stock->issue;
         }
 
+        $topReleasedItems = Stockcard::select(
+            'item_id',
+            DB::raw('SUM(issue) as total_issued')
+        )
+            ->with('item')
+            ->groupBy('item_id')
+            ->whereYear('created_at', $year)
+            ->orderByDesc('total_issued')
+            ->limit(10)
+            ->get();
+
+        $topItemLabels = $topReleasedItems->pluck('item.item_name');
+        $topItemData   = $topReleasedItems->pluck('total_issued');
+
+        $monthlyTopItemsRaw = Stockcard::select(
+            DB::raw("CAST(strftime('%m', created_at) AS INTEGER) as month"),
+            'item_id',
+            DB::raw('SUM(issue) as total_issued')
+        )
+            ->whereYear('created_at', $year)
+            ->groupBy(
+                DB::raw("CAST(strftime('%m', created_at) AS INTEGER)"),
+                'item_id'
+            )
+            ->orderBy('month')
+            ->orderByDesc('total_issued')
+            ->get();
+
+        $monthlyTopPerMonth = [];
+
+        foreach ($monthlyTopItemsRaw as $row) {
+            if (!isset($monthlyTopPerMonth[$row->month])) {
+                $monthlyTopPerMonth[$row->month] = $row;
+            }
+        }
+
+        $monthlyTopLabels    = [];
+        $monthlyTopData      = [];
+        $monthlyTopItemNames = [];
+
+        foreach (range(1, 12) as $month) {
+            $monthlyTopLabels[] = Carbon::create()->month($month)->format('M');
+
+            if (isset($monthlyTopPerMonth[$month])) {
+                $item = Item::find($monthlyTopPerMonth[$month]->item_id);
+
+                $monthlyTopData[]      = $monthlyTopPerMonth[$month]->total_issued;
+                $monthlyTopItemNames[] = $item->item_name ?? 'N/A';
+            } else {
+                $monthlyTopData[]      = 0;
+                $monthlyTopItemNames[] = 'N/A';
+            }
+        }
+
+        $req_items = Item::with('stockcard')
+            ->whereColumn('quantity', '<=', 'restock_point')
+            ->get();
+
         return view('dashboard', compact(
             'items',
+            'req_items',
             'totalCost',
             'monthlyCapital',
             'monthlyItems',
-            'totalReleasedItems'
+            'totalReleasedItems',
+            'topItemLabels',
+            'topItemData',
+            'monthlyTopLabels',
+            'monthlyTopData',
+            'monthlyTopItemNames'
         ));
     }
 

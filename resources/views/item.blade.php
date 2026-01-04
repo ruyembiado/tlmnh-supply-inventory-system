@@ -16,7 +16,7 @@
                         <tr>
                             <th>No.</th>
                             <th>Item Name</th>
-                            {{-- <th>Category</th> --}}
+                            <th>Restock Point</th>
                             <th>Current Stock</th>
                             <th>Unit</th>
                             <th>Description</th>
@@ -30,7 +30,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->item_name }}</td>
-                                {{-- <td>{{ $item->category }}</td> --}}
+                                <td>{{ $item->restock_point }}</td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>{{ $item->unit }}</td>
                                 <td>{{ $item->description }}</td>

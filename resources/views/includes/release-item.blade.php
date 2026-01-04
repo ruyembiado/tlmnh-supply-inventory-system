@@ -92,3 +92,10 @@
         </div>
     </div>
 </div>
+@if ($errors->any())
+<script>
+    $(document).ready(function () {
+        $('#releaseItemModal').modal('show');
+    });
+</script>
+@endif

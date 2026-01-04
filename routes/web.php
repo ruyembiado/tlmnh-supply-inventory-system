@@ -51,5 +51,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/item/stock/{id}', [ItemController::class, 'get_item_stock'])->name('item.stock');
 
     // Report
-    Route::get('/report', [ReportController::class, 'report'])->name('show.report');
+    Route::get('/report-sami', [ReportController::class, 'report_sami'])->name('show.report');
 });

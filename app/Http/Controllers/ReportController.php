@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-    public function report(Request $request)
+    public function report_sami(Request $request)
     {
         $selected_year = $request->input('year') ?? Carbon::now()->year;
         $selected_month = $request->input('month');
@@ -41,6 +41,6 @@ class ReportController extends Controller
                 ];
             });
 
-        return view('report', compact('items', 'recap', 'selected_year', 'selected_month'));
+        return view('report_sami', compact('items', 'recap', 'selected_year', 'selected_month'));
     }
 }

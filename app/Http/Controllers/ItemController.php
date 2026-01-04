@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\StockCard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ItemController extends Controller
 {
@@ -21,18 +22,24 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'item_name' => 'required|string|max:255',
-            'supplier_name' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
-            'stock_no' => 'required|string|unique:items,stock_no|max:255',
-            'restock_point' => 'nullable|integer|min:0',
-            'unit_cost' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:1',
-            'unit' => 'required|string|max:255',
-            'description' => 'nullable|string',
+        $validator = Validator::make($request->all(), [
+            'item_name'      => 'required|string|max:255',
+            'supplier_name'  => 'required|string|max:255',
+            'category'       => 'required|string|max:255',
+            'stock_no'       => 'required|string|max:255|unique:items,stock_no',
+            'restock_point'  => 'required|integer',
+            'unit_cost'      => 'required|numeric',
+            'quantity'          => 'required|integer|min:1',
+            'unit'           => 'required|string|max:255',
+            'description'    => 'nullable|string',
             // 'remarks' => 'nullable|string',
         ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator, 'add')
+                ->withInput();
+        }
 
         $item = Item::create([
             'item_name'   => $request->item_name,
@@ -73,12 +80,12 @@ class ItemController extends Controller
 
     public function update(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'item_name' => 'required|string|max:255',
             'supplier_name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'stock_no' => 'required|string|max:255|unique:items,stock_no,' . $request->item_id,
-            'restock_point' => 'nullable|integer',
+            'restock_point' => 'required|integer',
             'unit_cost' => 'required|numeric',
             'stock' => 'nullable|integer',
             'unit' => 'required|string|max:255',
@@ -86,10 +93,16 @@ class ItemController extends Controller
             // 'remarks' => 'nullable|string',
         ]);
 
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator, 'update')
+                ->withInput();
+        }
+
         $item = Item::findOrFail($request->item_id);
 
         $oldQty = $item->quantity;
-        $addedStock = $request->stock ?? 0; 
+        $addedStock = $request->stock ?? 0;
         $newQty = $oldQty + $addedStock;
 
         $item->update([
