@@ -191,12 +191,22 @@ class ItemController extends Controller
         return response()->json(['stock' => $item->quantity]);
     }
 
-    public function released()
+    public function released(Request $request)
     {
-        $releasedItems = Stockcard::where('type', 'OUT')
-            ->orderBy('created_at', 'desc')
-            ->with('item')
-            ->get();
+        $release_date = $request->input('release_date');
+
+        if ($release_date) {
+            $releasedItems = Stockcard::where('type', 'OUT')
+                ->whereDate('release_date', $release_date)
+                ->orderBy('created_at', 'desc')
+                ->with('item')
+                ->get();
+        } else {
+            $releasedItems = Stockcard::where('type', 'OUT')
+                ->orderBy('created_at', 'desc')
+                ->with('item')
+                ->get();
+        }
 
         return view('released_item', compact('releasedItems'));
     }

@@ -11,6 +11,27 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="table-responsive">
+                <form method="GET" action="{{ route('released.items') }}" class="mb-3">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold">Filter by Date</label>
+                            <input type="date" name="release_date" class="form-control"
+                                value="{{ request('release_date') }}">
+                        </div>
+
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">
+                                Filter
+                            </button>
+                        </div>
+
+                        <div class="col-auto">
+                            <a href="{{ route('released.items') }}" class="btn btn-danger">
+                                Reset
+                            </a>
+                        </div>
+                    </div>
+                </form>
                 <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                     <thead>
                         <tr>
@@ -38,7 +59,6 @@
                                 <td>
                                     {{ $releasedItem->release_date ? \Carbon\Carbon::parse($releasedItem->release_date)->format('F d, Y') : '' }}
                                 </td>
-
                                 {{-- <td>
                                     <div class="d-flex align-items-center justify-c gap-2">
                                          <a href="{{ route('show.item', $releasedItem->item->id) }}" class="btn btn-secondary btn-sm">

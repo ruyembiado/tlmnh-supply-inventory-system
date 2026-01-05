@@ -127,7 +127,9 @@
                                     @endphp
 
                                     <tr>
-                                        <td style="border-bottom: none !important;">---</td>
+                                        <td style="border-bottom: none !important;">
+                                            {{ \Carbon\Carbon::parse($item->stockcard->first()->release_date)->format('Y-m') }}-{{ sprintf('%03d', $loop->iteration) }}
+                                        </td>
                                         <td style="border-bottom: none !important;">---</td>
                                         <td style="border-bottom: none !important;">{{ $item->stock_no }}</td>
                                         <td style="border-bottom: none !important;" class="text-start">
