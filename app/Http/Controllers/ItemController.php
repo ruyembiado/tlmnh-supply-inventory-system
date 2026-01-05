@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\StockCard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ItemController extends Controller
@@ -149,35 +150,58 @@ class ItemController extends Controller
 
     public function release(Request $request)
     {
-        $request->validate([
-            'item_name' => 'required|exists:items,id',
-            'quantity' => 'required|integer|min:1',
-            'end_user' => 'required|string',
-            'purpose' => 'nullable|string',
-            'reference' => 'nullable|string',
-            'release_date' => 'required|date',
-        ]);
+        $request->validate(
+            [
+                'items'          => 'required|array|min:1',
+                'items.*'        => 'required|exists:items,id',
+                'quantities'     => 'required|array',
+                'quantities.*'   => 'required|integer|min:1',
+                'end_user'       => 'required|string',
+                'purpose'        => 'required|string',
+                'reference'      => 'nullable|string',
+                'release_date'   => 'required|date',
+            ],
+            [
+                'items.required'       => 'The item field is required.',
+                'items.*.required'     => 'The item field is required.',
+                'items.*.exists'       => 'The selected item is invalid.',
+                'quantities.required'  => 'The quantity field is required.',
+                'quantities.*.required' => 'The quantity field is required.',
+                'quantities.*.integer' => 'The quantity must be a number.',
+                'quantities.*.min'     => 'The quantity must be at least 1.',
+                'end_user.required'    => 'The end-user field is required.',
+                'release_date.required' => 'The release date field is required.',
+            ]
+        );
 
-        $item = Item::findOrFail($request->item_name);
-        $item->quantity -= $request->quantity;
-        $item->save();
-        $newQty = $item->quantity;
+        DB::transaction(function () use ($request) {
+            foreach ($request->items as $index => $itemId) {
+                $quantity = $request->quantities[$index];
+                $item = Item::lockForUpdate()->findOrFail($itemId);
+                if ($quantity > $item->quantity) {
+                    throw new \Exception("Insufficient stock for {$item->item_name}");
+                }
 
-        $item_id = $request->item_name;
+                // Deduct stock
+                $item->quantity -= $quantity;
+                $item->save();
 
-        StockCard::create([
-            'item_id'   => $item_id,
-            'type'      => 'OUT',
-            'issue'     => $request->quantity,
-            'balance'   => $newQty,
-            'date'      => now()->toDateString(),
-            'end_user'   => $request->end_user,
-            'purpose'   => $request->purpose,
-            'reference' => $request->reference,
-            'release_date' => $request->release_date ?? now()->toDateString(),
-        ]);
+                // Create stock card
+                StockCard::create([
+                    'item_id'      => $item->id,
+                    'type'         => 'OUT',
+                    'issue'        => $quantity,
+                    'balance'      => $item->quantity,
+                    'date'         => now()->toDateString(),
+                    'end_user'     => $request->end_user,
+                    'purpose'      => $request->purpose,
+                    'reference'    => $request->reference,
+                    'release_date' => $request->release_date,
+                ]);
+            }
+        });
 
-        return redirect()->back()->with('success', 'Item released successfully.');
+        return redirect()->back()->with('success', 'Items released successfully.');
     }
 
     public function get_item_stock($id)

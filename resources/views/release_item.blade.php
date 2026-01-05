@@ -1,129 +1,212 @@
-@extends('layouts.auth') <!-- Extend the main layout -->
-
+@extends('layouts.auth')
 @section('content')
-    <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text">Release Item</h1>
+        <h1 class="h3 mb-0 text">Release Items</h1>
     </div>
 
-    <!-- Card -->
     <div class="card shadow mb-4">
         <div class="card-body">
             <form action="{{ route('release.item') }}" method="POST">
                 @csrf
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="item_id" class="form-label">Item Name</label>
-                            <select name="item_name" id="item_name"
-                                class="form-control select2 @error('item_name') is-invalid @enderror">
-                                <option value="">-- Select Item --</option>
-                                @foreach ($items as $item)
-                                    <option value="{{ $item->id }}"
-                                        {{ old('item_name') == $item->id ? 'selected' : '' }}>
-                                        {{ $item->item_name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            @error('item_name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="quantity" class="form-label">Quantity</label>
-                            <div class="mb-2">
-                                <span id="remaining-stock" class="text-muted">Remaining stock: <span class="fw-bold">0</span></span>
-                            </div>
 
-                            <input type="number" name="quantity" id="quantity"
-                                class="form-control @error('quantity') is-invalid @enderror" min="0"
-                                value="{{ old('quantity', 0) }}">
-                            @error('quantity')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="end_user" class="form-label">Office/End-User</label>
-                            <input type="text" name="end_user" id="end_user"
-                                class="form-control @error('end_user') is-invalid @enderror" value="{{ old('end_user') }}">
-                            @error('end_user')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                {{-- ================= HEADER DATA ================= --}}
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label class="form-label">Office / End-User</label>
+                        <input type="text" name="end_user" class="form-control @error('end_user') is-invalid @enderror"
+                            value="{{ old('end_user') }}">
+                        @error('end_user')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="reference" class="form-label">Reference (optional)</label>
-                            <input type="text" name="reference" id="reference"
-                                class="form-control @error('reference') is-invalid @enderror"
-                                value="{{ old('reference') }}">
-                            @error('reference')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="purpose" class="form-label">Purpose / No. of Days to Consume (optional)</label>
-                            <textarea name="purpose" id="purpose" class="form-control @error('purpose') is-invalid @enderror" rows="3">{{ old('purpose') }}</textarea>
-                            @error('purpose')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="release_date" class="form-label">Release Date</label>
-                            <input type="date" name="release_date" id="release_date"
-                                class="form-control @error('release_date') is-invalid @enderror"
-                                value="{{ old('release_date') ?? today()->toDateString() }}">
-                            @error('release_date')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Reference (optional)</label>
+                        <input type="text" name="reference" class="form-control @error('reference') is-invalid @enderror"
+                            value="{{ old('reference') }}">
+                        @error('reference')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Purpose / No. of Days to Consume</label>
+                        <textarea name="purpose" class="form-control @error('purpose') is-invalid @enderror" rows="3">{{ old('purpose') }}</textarea>
+                        @error('purpose')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Release Date</label>
+                        <input type="date" name="release_date"
+                            class="form-control @error('release_date') is-invalid @enderror"
+                            value="{{ old('release_date') ?? today()->toDateString() }}">
+                        @error('release_date')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
+
+                <hr>
+
+                {{-- ================= ITEMS ================= --}}
+                @php
+                    $oldItems = old('items', [null]);
+                    $oldQuantities = old('quantities', [null]);
+                @endphp
+
+                <div id="items-wrapper">
+                    @foreach ($oldItems as $index => $oldItem)
+                        <div class="item-row row mb-3">
+
+                            {{-- ITEM --}}
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    Item Name -
+                                    <small class="text-dark remaining-stock">Remaining stock: 0</small>
+                                </label>
+
+                                <select name="items[]"
+                                    class="form-control item-select select2
+                            @error("items.$index") is-invalid @enderror">
+
+                                    <option value="">-- Select Item --</option>
+                                    @foreach ($items as $item)
+                                        <option value="{{ $item->id }}" {{ $oldItem == $item->id ? 'selected' : '' }}>
+                                            {{ $item->item_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+
+                                @error("items.$index")
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            {{-- QUANTITY --}}
+                            <div class="col-md-3">
+                                <div class="label">
+                                    <label class="form-label">Quantity</label>
+                                    <input type="number" name="quantities[]"
+                                        class="form-control quantity-input
+                            @error("quantities.$index") is-invalid @enderror"
+                                        min="0" value="{{ $oldQuantities[$index] ?? '' }}">
+
+                                    @error("quantities.$index")
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            {{-- REMOVE --}}
+                            <div class="col-md-3">
+                                <button type="button" style="margin-top: 35px;"
+                                    class="btn btn-sm btn-danger btn-remove-item {{ $index === 0 ? 'd-none' : '' }}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    @endforeach
+                </div>
+
+                <button type="button" id="add-item" class="btn btn-sm btn-secondary mb-3">
+                    <i class="fas fa-plus"></i> Add Item
+                </button>
+
                 <div class="mt-3">
-                    <button type="submit" class="btn btn-primary float-end">Release Item</button>
+                    <button type="submit" class="btn btn-primary float-end">
+                        Release Items
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 @endsection
+
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $('#item_name').select2({
-                theme: 'bootstrap-5',
-                width: '100%',
-                placeholder: "-- Select Item --",
-                allowClear: true
-            });
-        });
 
-        $('#item_name').on('change', function() {
-            var itemId = $(this).val();
-            if (itemId) {
-                $.ajax({
-                    url: '{{ url('item/stock') }}/' + itemId,
-                    type: 'GET',
-                    success: function(response) {
-                        var stock = response.stock;
-                        $('#quantity').attr('max', stock);
-                        $('#remaining-stock span').text(response.stock);
-                        // Auto-correct quantity if it exceeds stock
-                        if (parseInt($('#quantity').val()) > stock) {
-                            $('#quantity').val(stock);
-                        }
-                    },
-                    error: function() {
-                        $('#remaining-stock span').text('0');
-                        $('#quantity').attr('max', 0);
+            function initSelect2() {
+                $('.select2').select2({
+                    theme: 'bootstrap-5',
+                    width: '100%'
+                });
+            }
+
+            initSelect2();
+
+            // ================= ADD ITEM =================
+            $('#add-item').on('click', function() {
+
+                // Destroy select2 first (important)
+                $('.item-select').select2('destroy');
+
+                let row = $('.item-row:first').clone(false);
+
+                row.find('select').val('');
+                row.find('.quantity-input').val('');
+                row.find('.remaining-stock').text('Remaining stock: 0');
+                row.find('.btn-remove-item').removeClass('d-none');
+
+                $('#items-wrapper').append(row);
+
+                // Re-init select2
+                initSelect2();
+                refreshItemOptions();
+            });
+
+            // ================= REMOVE ITEM =================
+            $(document).on('click', '.btn-remove-item', function() {
+                $(this).closest('.item-row').remove();
+                refreshItemOptions();
+            });
+
+            // ================= ITEM CHANGE =================
+            $(document).on('change', '.item-select', function() {
+                let select = $(this);
+                let itemId = select.val();
+                let row = select.closest('.item-row');
+
+                if (itemId) {
+                    $.get("{{ url('item/stock') }}/" + itemId, function(res) {
+                        row.find('.remaining-stock').text('Remaining stock: ' + res.stock);
+                        row.find('.quantity-input').attr('max', res.stock);
+                    });
+                } else {
+                    row.find('.remaining-stock').text('Remaining stock: 0');
+                    row.find('.quantity-input').attr('max', 0);
+                }
+
+                refreshItemOptions();
+            });
+
+            // ================= HIDE SELECTED ITEMS =================
+            function refreshItemOptions() {
+                let selected = [];
+
+                $('.item-select').each(function() {
+                    if ($(this).val()) {
+                        selected.push($(this).val());
                     }
                 });
-            } else {
-                $('#remaining-stock span').text('0');
-                $('#quantity').attr('max', 0);
-            }
-        });
 
-        // Trigger change on load to show stock for old selected item (if any)
-        $('#item_name').trigger('change');
+                $('.item-select').each(function() {
+                    let current = $(this).val();
+
+                    $(this).find('option').each(function() {
+                        let val = $(this).val();
+                        if (val && val !== current && selected.includes(val)) {
+                            $(this).prop('disabled', true);
+                        } else {
+                            $(this).prop('disabled', false);
+                        }
+                    });
+                });
+            }
+
+        });
     </script>
 @endpush
