@@ -4,7 +4,13 @@
     <!-- Start the content section -->
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text">Items</h1>
+        <div class="d-flex justify-content-between gap-2 align-items-center w-100">
+            <h1 class="h3 mb-0 text">Items</h1>
+            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal">
+                <i class="fas fa-plus"></i>
+                <span>Add Item</span>
+            </a>
+        </div>
     </div>
 
     <!-- Content Row -->

@@ -42,12 +42,12 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                {{-- <li class="sidebar-item">
                     <a href="#" class="sidebar-link" data-bs-toggle="modal" data-bs-target="#addItemModal">
                         <i class="fas fa-cart-plus"></i>
                         <span>Add Item</span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="sidebar-item">
                     <a href="{{ url('/items') }}" class="sidebar-link">
                         <i class="fas fa-boxes"></i>
