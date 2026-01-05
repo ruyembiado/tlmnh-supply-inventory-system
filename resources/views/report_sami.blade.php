@@ -8,7 +8,7 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-4">
-                <form method="GET" action="{{ route('show.report') }}" class="d-print-none col-md-3">
+                <form method="GET" action="{{ route('show.report.sami') }}" class="d-print-none col-md-3">
                     <div class="row g-2 align-items-center">
                         <div class="d-flex flex-column col-md-4">
                             <label for="year" class="form-label mb-0">Select Year:</label>
@@ -34,11 +34,14 @@
                         </div>
                     </div>
                 </form>
-
-                <div class="print-buttons">
+                <div class="print-buttons d-flex gap-2">
                     <button onclick="printReport()" class="btn btn-sm btn-primary d-print-none">
                         <i class="fas fa-print"></i> Print Report
                     </button>
+                    {{-- <a href="{{ url('/download-sami-report?year=' . $selected_year . '&month=' . $selected_month) }}"
+                        class="btn btn-sm btn-danger">
+                        <i class="fas fa-file-pdf"></i> Download PDF
+                    </a> --}}
                 </div>
             </div>
 
@@ -79,8 +82,10 @@
                         cellpadding="3" style="border-collapse: collapse;">
                         <thead class="">
                             <tr>
-                                <td colspan="6" class="full-border"><i>To be filled up by the Supply and/or Property Division/Unit</i></td>
-                                <td colspan="2" class="full-border"><i>To be filled up by the Accounting Division/Unit</i></td>
+                                <td colspan="6" class="full-border"><i>To be filled up by the Supply and/or Property
+                                        Division/Unit</i></td>
+                                <td colspan="2" class="full-border"><i>To be filled up by the Accounting
+                                        Division/Unit</i></td>
                             </tr>
                             <tr>
                                 <th style="vertical-align: middle">RIS No.</th>
@@ -125,11 +130,14 @@
                                         <td style="border-bottom: none !important;">---</td>
                                         <td style="border-bottom: none !important;">---</td>
                                         <td style="border-bottom: none !important;">{{ $item->stock_no }}</td>
-                                        <td style="border-bottom: none !important;" class="text-start">{{ $item->item_name }}</td>
+                                        <td style="border-bottom: none !important;" class="text-start">
+                                            {{ $item->item_name }}</td>
                                         <td style="border-bottom: none !important;">{{ $item->unit }}</td>
                                         <td style="border-bottom: none !important;">{{ $totalIssued }}</td>
-                                        <td style="border-bottom: none !important;">₱ {{ number_format($unitCost, 2) }}</td>
-                                        <td style="border-bottom: none !important;">₱ {{ number_format($totalCost, 2) }}</td>
+                                        <td style="border-bottom: none !important;">₱ {{ number_format($unitCost, 2) }}
+                                        </td>
+                                        <td style="border-bottom: none !important;">₱ {{ number_format($totalCost, 2) }}
+                                        </td>
                                     </tr>
                                 @endforeach
                             @endif
@@ -186,27 +194,36 @@
 
                                 {{-- Footer --}}
                                 <tr>
-                                    <td colspan="5" class="pb-5 text-center top-border">I hereby certify to the correctness of the
+                                    <td colspan="5" class="pb-5 text-center top-border">I hereby certify to the
+                                        correctness of the
                                         above information.</td>
                                     <td colspan="3" class="top-border"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="5" class="text-center">
-                                        <input oninput="this.value = this.value.toUpperCase()" class="w-100 pt-0 report-input form-control text-center" type="text" value="JEFRY J. TILBE" />
+                                        <input oninput="this.value = this.value.toUpperCase()"
+                                            class="w-100 pt-0 report-input form-control text-center" type="text"
+                                            value="JEFRY J. TILBE" name="property_custodian" />
                                     </td>
                                     <td colspan="2" class="text-center right-border-none">
-                                        <input oninput="this.value = this.value.toUpperCase()" class="w-100 pt-0 report-input form-control text-center" type="text" value="RIZA LEAH B. SIANSON" />
+                                        <input oninput="this.value = this.value.toUpperCase()"
+                                            class="w-100 pt-0 report-input form-control text-center" type="text"
+                                            value="RIZA LEAH B. SIANSON" name="accounting_staff" />
                                     </td>
                                     <td colspan="1" class="text-center">
-                                        <span class="border-bottom border-dark">{{ \Carbon\Carbon::today()->format('m/d/Y') }}</span>
+                                        <span
+                                            class="border-bottom border-dark">{{ \Carbon\Carbon::today()->format('m/d/Y') }}</span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="5" style="vertical-align: top;" class="text-center bottom-border pb-3 pt-0">Signature over
+                                    <td colspan="5" style="vertical-align: top;"
+                                        class="text-center bottom-border pb-3 pt-0">Signature over
                                         Printed Name of Supply and/or Property Custodian</td>
-                                    <td colspan="2" style="vertical-align: top;" class="text-center bottom-border pb-3 pt-0 right-border-none">Signature over
+                                    <td colspan="2" style="vertical-align: top;"
+                                        class="text-center bottom-border pb-3 pt-0 right-border-none">Signature over
                                         Printed Name of <br> Designated Accounting Staff</td>
-                                    <td colspan="1" style="vertical-align: top;" class="text-center bottom-border pb-3 pt-0">Date</td>
+                                    <td colspan="1" style="vertical-align: top;"
+                                        class="text-center bottom-border pb-3 pt-0">Date</td>
                                 </tr>
                             @endif
                         </tbody>

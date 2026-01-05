@@ -332,6 +332,10 @@ h1.home-title {
     --bs-table-border-color: #fff !important;
 }
 
+#print-section .req.main-report-table table tbody td:last-child {
+    border-bottom: 2px solid #000 !important;
+}
+
 @media print {
 
     #print-stockcard,

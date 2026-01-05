@@ -84,7 +84,16 @@
                         <span>Stock Cards</span>
                     </a>
                 </li>
+
                 <li class="sidebar-item">
+                    <a href="{{ url('/report-sami?year=' . now()->year . '&month=' . now()->month) }}"
+                        class="sidebar-link">
+                        <i class="fas fa-file-lines"></i>
+                        <span>Report</span>
+                    </a>
+                </li>
+
+                {{-- <li class="sidebar-item">
                     <a href="#reportDropdown" class="sidebar-link collapsed" data-bs-toggle="collapse"
                         aria-expanded="false">
                         <i class="fas fa-file-invoice"></i>
@@ -100,9 +109,10 @@
                             </a>
                         </li>
                         <li class="sidebar-item bg-secondary">
-                            <a href="#" class="sidebar-link">
+                            <a href="{{ url('/report-requisition?year=' . now()->year . '&month=' . now()->month) }}"
+                                class="sidebar-link">
                                 <i class="fas fa-file-lines"></i>
-                                <span>Requisition</span>
+                                <span>Items Requisitions</span>
                             </a>
                         </li>
                         <li class="sidebar-item bg-secondary">
@@ -112,7 +122,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
             </ul>
         </aside>
         <div class="main bg-gradient">

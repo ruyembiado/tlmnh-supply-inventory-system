@@ -9,7 +9,8 @@
     <!-- Bootstrap Style -->
     <link href="{{ asset('public/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Fontawesome Style -->
-    <link href="{{ asset('public/css/fontawesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/css/all.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('public/css/fontawesome.min.css') }}" rel="stylesheet"> --}}
     <!-- Datatables -->
     <link href="{{ asset('public/css/datatables.min.css') }}" rel="stylesheet">
     <!-- Select2 Style -->
@@ -33,8 +34,7 @@
                                 <span class="m-auto me-1 text-light">{{ Str::ucfirst(auth()->user()->username) }}</span>
                                 <li class="nav-item dropdown">
                                     <a href="#" data-bs-toggle="dropdown" class="nav-stat-icon pe-md-0">
-                                        <a data-bs-toggle="dropdown" class="nav-stat-icon pe-md-0"
-                                            href="#">
+                                        <a data-bs-toggle="dropdown" class="nav-stat-icon pe-md-0" href="#">
                                             <i class="text-light fas fa-user-circle avatar"></i>
                                         </a>
                                     </a>
@@ -78,7 +78,8 @@
     <!-- Datatables -->
     <script src="{{ asset('public/js/datatables.min.js') }}"></script>
     <!-- Fontawesome Script -->
-    <script src="{{ asset('public/js/fontawesome.min.js') }}"></script>
+    <script src="{{ asset('public/js/all.min.js') }}"></script>
+    {{-- <script src="{{ asset('public/js/fontawesome.min.js') }}"></script> --}}
     <!-- Select2 Script -->
     <script src="{{ asset('public/js/select2.min.js') }}"></script>
     <!-- Custom Script -->

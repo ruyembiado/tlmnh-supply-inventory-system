@@ -125,8 +125,7 @@
                                                     @if ($item->quantity == 0)
                                                         <span class="badge bg-danger ms-2">Out of Stock</span>
                                                     @else
-                                                        <span class="badge bg-warning text-dark ms-2">For
-                                                            Requisition</span>
+                                                        <span class="badge bg-warning text-dark ms-2">Nearly Out</span>
                                                     @endif
                                                 </td>
                                                 <td>{{ $item->unit }}</td>

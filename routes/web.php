@@ -51,5 +51,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/item/stock/{id}', [ItemController::class, 'get_item_stock'])->name('item.stock');
 
     // Report
-    Route::get('/report-sami', [ReportController::class, 'report_sami'])->name('show.report');
+    Route::get('/report-sami', [ReportController::class, 'report_sami'])->name('show.report.sami');
+    Route::get('/report-requisition', [ReportController::class, 'report_item_requisition'])->name('show.report.requisition');
+    Route::get('/download-sami-report', [ReportController::class, 'download_sami_report'])->name('download.sami.report');
 });
