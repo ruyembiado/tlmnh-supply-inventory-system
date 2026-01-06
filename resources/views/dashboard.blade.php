@@ -17,7 +17,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs fw-bold text-dark text-uppercase mb-1">
                                     Items</div>
-                                <div class="h3 mb-0 fw-bold text-primary">{{ $items->count() }}</div>
+                                <div class="h3 mb-0 text-primary">{{ $items->count() }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fa fa-box fa-2x text-primary"></i>
@@ -36,7 +36,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs fw-bold text-dark text-uppercase mb-1">
                                     Out of Stock Items</div>
-                                <div class="h3 mb-0 fw-bold text-primary">
+                                <div class="h3 mb-0 text-primary">
                                     {{ $items->where('quantity', 0)->count() }}</div>
                             </div>
                             <div class="col-auto">
@@ -56,7 +56,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs fw-bold text-dark text-uppercase mb-1">
                                     Items Released</div>
-                                <div class="h3 mb-0 fw-bold text-primary">{{ number_format($totalReleasedItems) }}
+                                <div class="h3 mb-0 text-primary">{{ number_format($totalReleasedItems) }}
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -76,7 +76,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs fw-bold text-dark text-uppercase mb-1">
                                     Capital Spent</div>
-                                <div class="h3 mb-0 fw-bold text-primary">₱ {{ number_format($totalCost, 2) }}</div>
+                                <div class="h3 mb-0 text-primary">₱ {{ number_format($totalCost, 2) }}</div>
                             </div>
                             <div class="col-auto">
                                 <span class="fa-2x text-primary">₱</span>
@@ -124,7 +124,7 @@
                                                 <td>
                                                     @if ($item->quantity == 0)
                                                         <span class="badge bg-danger ms-2">Out of Stock</span>
-                                                    @elseif ($item->quantity <= 10)
+                                                    @else
                                                         <span class="badge bg-warning text-dark ms-2">Nearly Out</span>
                                                     @endif
                                                 </td>

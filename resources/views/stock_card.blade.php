@@ -15,6 +15,7 @@
                     <thead>
                         <tr>
                             <th>No.</th>
+                            <th>Stock No.</th>
                             <th>Item Name</th>
                             <th>Category</th>
                             <th>Unit</th>
@@ -26,6 +27,7 @@
                         @foreach ($items as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->stock_no }}</td>
                                 <td>{{ $item->item_name }}</td>
                                 <td>{{ $item->category }}</td>
                                 <td>{{ $item->unit }}</td>

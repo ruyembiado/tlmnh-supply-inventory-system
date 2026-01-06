@@ -40,7 +40,7 @@
                             {{-- <th>Category</th> --}}
                             <th>Quantity</th>
                             <th>Unit</th>
-                            <th>Purpose</th>
+                            <th>Purpose / No. of Days to Consume</th>
                             <th>Office/End-User</th>
                             <th>Release Date</th>
                             {{-- <th>Action</th> --}}
@@ -61,7 +61,7 @@
                                 </td>
                                 {{-- <td>
                                     <div class="d-flex align-items-center justify-c gap-2">
-                                         <a href="{{ route('show.item', $releasedItem->item->id) }}" class="btn btn-secondary btn-sm">
+                                        <a href="{{ route('show.item', $releasedItem->item->id) }}" class="btn btn-secondary btn-sm">
                                             View
                                         </a>
                                         <a href="{{ route('edit.item', $releasedItem->item->id) }}" class="btn btn-warning btn-sm">

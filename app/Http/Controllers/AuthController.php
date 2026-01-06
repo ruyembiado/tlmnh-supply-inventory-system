@@ -121,8 +121,7 @@ class AuthController extends Controller
             }
         }
 
-        $req_items = Item::with('stockcard')
-            ->whereColumn('quantity', '<=', 'restock_point')
+        $req_items = Item::where('quantity', '<=', 20)
             ->get();
 
         return view('dashboard', compact(

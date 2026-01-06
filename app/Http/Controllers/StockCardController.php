@@ -9,7 +9,7 @@ class StockCardController extends Controller
 {
     public function index()
     {
-        $items = Item::orderBy('created_at', 'desc')->get();
+        $items = Item::orderBy('stock_no', 'asc')->get();
         return view('stock_card', compact('items'));
     }
 

@@ -29,13 +29,13 @@
                         @enderror
                     </div> --}}
 
-                    <div class="col-md-3">
+                    {{-- <div class="col-md-3">
                         <label class="form-label">Purpose / No. of Days to Consume</label>
                         <textarea name="purpose" class="form-control @error('purpose') is-invalid @enderror" rows="3">{{ old('purpose') }}</textarea>
                         @error('purpose')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     <div class="col-md-3">
                         <label class="form-label">Release Date</label>
@@ -54,6 +54,7 @@
                 @php
                     $oldItems = old('items', [null]);
                     $oldQuantities = old('quantities', [null]);
+                    $oldPurposes = old('purposes', [null]);
                 @endphp
 
                 <div id="items-wrapper">
@@ -61,7 +62,7 @@
                         <div class="item-row row mb-3">
 
                             {{-- ITEM --}}
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <label class="form-label">
                                     Item Name -
                                     <small class="text-dark remaining-stock">Remaining stock: 0</small>
@@ -69,7 +70,7 @@
 
                                 <select name="items[]"
                                     class="form-control item-select select2
-                            @error("items.$index") is-invalid @enderror">
+                                    @error("items.$index") is-invalid @enderror">
 
                                     <option value="">-- Select Item --</option>
                                     @foreach ($items as $item)
@@ -89,14 +90,23 @@
                                 <div class="label">
                                     <label class="form-label">Quantity</label>
                                     <input type="number" name="quantities[]"
-                                        class="form-control quantity-input
-                            @error("quantities.$index") is-invalid @enderror"
+                                        class="form-control quantity-input @error("quantities.$index") is-invalid @enderror"
                                         min="0" value="{{ $oldQuantities[$index] ?? '' }}">
 
                                     @error("quantities.$index")
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Purpose / No. of Days to Consume</label>
+                                <textarea name="purposes[]" class="form-control @error("purposes.$index") is-invalid @enderror"
+                                    rows="2">{{ old("purposes.$index") }}</textarea>
+
+                                @error("purposes.$index")
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             {{-- REMOVE --}}

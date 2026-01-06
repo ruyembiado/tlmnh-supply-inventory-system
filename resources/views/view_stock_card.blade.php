@@ -20,7 +20,7 @@
                             </tr>
                             <tr>
                                 <td><strong>Item:</strong> {{ $item->item_name }}</td>
-                                <td class="text-end"><strong>Reorder Point:</strong></td>
+                                {{-- <td class="text-end"><strong>Reorder Point:</strong></td> --}}
                             </tr>
                             <tr>
                                 <td colspan="2"><strong>Description:</strong> {{ $item->description ?? '' }}</td>

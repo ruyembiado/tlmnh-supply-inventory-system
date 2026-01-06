@@ -157,9 +157,11 @@ class ItemController extends Controller
                 'quantities'     => 'required|array',
                 'quantities.*'   => 'required|integer|min:1',
                 'end_user'       => 'required|string',
-                'purpose'        => 'required|string',
+                // 'purpose'        => 'required|string',
                 //'reference'      => 'nullable|string',
                 'release_date'   => 'required|date',
+                'purposes' => 'required|array|min:1',
+                'purposes.*' => 'required|string|max:255',
             ],
             [
                 'items.required'       => 'The item field is required.',
@@ -171,12 +173,16 @@ class ItemController extends Controller
                 'quantities.*.min'     => 'The quantity must be at least 1.',
                 'end_user.required'    => 'The end-user field is required.',
                 'release_date.required' => 'The release date field is required.',
+                'purposes.required'       => 'The purpose field is required.',
+                'purposes.*.required'     => 'The purpose field is required.',
             ]
         );
 
         DB::transaction(function () use ($request) {
             foreach ($request->items as $index => $itemId) {
                 $quantity = $request->quantities[$index];
+                $purpose  = $request->purposes[$index];
+
                 $item = Item::lockForUpdate()->findOrFail($itemId);
                 if ($quantity > $item->quantity) {
                     throw new \Exception("Insufficient stock for {$item->item_name}");
@@ -194,7 +200,7 @@ class ItemController extends Controller
                     'balance'      => $item->quantity,
                     'date'         => now()->toDateString(),
                     'end_user'     => $request->end_user,
-                    'purpose'      => $request->purpose,
+                    'purpose'      => $purpose,
                     // 'reference'    => $request->reference,
                     'release_date' => $request->release_date,
                 ]);
