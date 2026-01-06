@@ -21,8 +21,8 @@
                     <thead>
                         <tr>
                             <th>No.</th>
+                            <th>Stock No.</th>
                             <th>Item Name</th>
-                            <th>Restock Point</th>
                             <th>Current Stock</th>
                             <th>Unit</th>
                             <th>Description</th>
@@ -35,8 +35,8 @@
                         @foreach ($items as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->stock_no }}</td>
                                 <td>{{ $item->item_name }}</td>
-                                <td>{{ $item->restock_point }}</td>
                                 <td>{{ $item->quantity }}</td>
                                 <td>{{ $item->unit }}</td>
                                 <td>{{ $item->description }}</td>

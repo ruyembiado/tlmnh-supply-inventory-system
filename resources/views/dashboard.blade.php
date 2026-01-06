@@ -76,10 +76,10 @@
                             <div class="col mr-2">
                                 <div class="text-xs fw-bold text-dark text-uppercase mb-1">
                                     Capital Spent</div>
-                                <div class="h3 mb-0 fw-bold text-primary">{{ $totalCost }}</div>
+                                <div class="h3 mb-0 fw-bold text-primary">₱ {{ number_format($totalCost, 2) }}</div>
                             </div>
                             <div class="col-auto">
-                                <i class="fa fa-dollar fa-2x text-primary"></i>
+                                <span class="fa-2x text-primary">₱</span>
                             </div>
                         </div>
                     </div>
@@ -105,8 +105,8 @@
                                     <thead>
                                         <tr>
                                             <th>No.</th>
+                                            <th>Stock No.</th>
                                             <th>Item Name</th>
-                                            <th>Restock Point</th>
                                             <th>Current Stock</th>
                                             <th>Status</th>
                                             <th>Unit</th>
@@ -118,13 +118,13 @@
                                         @foreach ($req_items as $item)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $item->stock_no }}</td>
                                                 <td>{{ $item->item_name }}</td>
-                                                <td>{{ $item->restock_point }}</td>
                                                 <td>{{ $item->quantity }}</td>
                                                 <td>
                                                     @if ($item->quantity == 0)
                                                         <span class="badge bg-danger ms-2">Out of Stock</span>
-                                                    @else
+                                                    @elseif ($item->quantity <= 10)
                                                         <span class="badge bg-warning text-dark ms-2">Nearly Out</span>
                                                     @endif
                                                 </td>

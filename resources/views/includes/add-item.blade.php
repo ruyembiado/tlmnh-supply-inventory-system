@@ -33,9 +33,48 @@
 
                         <div class="col-md-6 col-xl-4 mb-3">
                             <label for="category" class="form-label">Category</label>
-                            <input type="text" name="category" id="category"
-                                class="form-control @error('category', 'add') is-invalid @enderror"
-                                value="{{ old('category') }}">
+                            <select name="category" id="category"
+                                class="form-control @error('category', 'add') is-invalid @enderror">
+
+                                <option value="">-- Select Category --</option>
+
+                                <option value="Office Supplies Inventory"
+                                    {{ old('category') == 'Office Supplies Inventory' ? 'selected' : '' }}>
+                                    Office Supplies Inventory
+                                </option>
+
+                                <option value="Drugs and Medicines Inventory"
+                                    {{ old('category') == 'Drugs and Medicines Inventory' ? 'selected' : '' }}>
+                                    Drugs and Medicines Inventory
+                                </option>
+
+                                <option value="Medical, Dental and Laboratory Supplies Inventory"
+                                    {{ old('category') == 'Medical, Dental and Laboratory Supplies Inventory' ? 'selected' : '' }}>
+                                    Medical, Dental and Laboratory Supplies Inventory
+                                </option>
+
+                                <option value="Agricultural and Marine Supplies Inventory"
+                                    {{ old('category') == 'Agricultural and Marine Supplies Inventory' ? 'selected' : '' }}>
+                                    Agricultural and Marine Supplies Inventory
+                                </option>
+
+                                <option value="Textbooks and Instructional Materials Inventory"
+                                    {{ old('category') == 'Textbooks and Instructional Materials Inventory' ? 'selected' : '' }}>
+                                    Textbooks and Instructional Materials Inventory
+                                </option>
+
+                                <option value="Construction Materials Inventory"
+                                    {{ old('category') == 'Construction Materials Inventory' ? 'selected' : '' }}>
+                                    Construction Materials Inventory
+                                </option>
+
+                                <option value="Other Supplies and Materials Inventory"
+                                    {{ old('category') == 'Other Supplies and Materials Inventory' ? 'selected' : '' }}>
+                                    Other Supplies and Materials Inventory
+                                </option>
+
+                            </select>
+
                             @error('category', 'add')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -51,7 +90,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-6 col-xl-4 mb-3">
+                        {{-- <div class="col-md-6 col-xl-4 mb-3">
                             <label for="restock_point" class="form-label">Restock Point</label>
                             <input type="number" name="restock_point" id="restock_point"
                                 class="form-control @error('restock_point', 'add') is-invalid @enderror" min="0"
@@ -59,7 +98,7 @@
                             @error('restock_point', 'add')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> --}}
 
                         <div class="col-md-6 col-xl-4 mb-3">
                             <label for="unit_cost" class="form-label">Unit Cost</label>

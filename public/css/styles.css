@@ -367,3 +367,36 @@ h1.home-title {
     }
 
 }
+
+/* width of the scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    /* make it thin */
+    height: 6px;
+}
+
+/* track (background) */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    /* keep or change if needed */
+}
+
+/* thumb (the moving part) */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    /* SAME color as before */
+    border-radius: 10px;
+}
+
+/* thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #888;
+    /* keep same color */
+}
+
+* {
+    scrollbar-width: thin;
+    /* makes it thin */
+    scrollbar-color: #888 #f1f1f1;
+    /* thumb color | track color */
+}

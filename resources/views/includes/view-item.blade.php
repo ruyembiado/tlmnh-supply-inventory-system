@@ -31,11 +31,11 @@
                             <input type="text" name="stock_no" id="stock_no" class="form-control" readonly
                                 value="{{ $item->stock_no }}">
                         </div>
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="restock_point" class="form-label">Restock Point</label>
                             <input type="number" name="restock_point" id="restock_point" class="form-control" readonly
                                 min="0" value="{{ $item->restock_point }}">
-                        </div>
+                        </div> --}}
                         <div class="mb-3">
                             <label for="unit_cost" class="form-label">Unit Cost</label>
                             <input type="number" name="unit_cost" id="unit_cost" class="form-control" readonly

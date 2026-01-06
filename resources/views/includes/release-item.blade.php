@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="reference" class="form-label">Reference (optional)</label>
                                 <input type="text" name="reference" id="reference"
                                     class="form-control @error('reference') is-invalid @enderror"
@@ -63,7 +63,7 @@
                                 @error('reference')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                            </div>
+                            </div> --}}
                             <div class="mb-3">
                                 <label for="purpose" class="form-label">Purpose / No. of Days to
                                     Consume (optional)</label>

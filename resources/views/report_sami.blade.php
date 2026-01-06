@@ -52,7 +52,7 @@
                         <td colspan="8" class="text-center">
                             <h4 class="fw-bold mb-0">REPORT OF SUPPLIES AND MATERIALS ISSUED</h4>
                             <h5 class="mb-3">{{ \Carbon\Carbon::create()->month($month)->format('F') }}
-                                {{ $selected_year }} JUNIOR HS</h5>
+                                {{ $selected_year }} JUNIOR HS /SENIOR HS</h5>
                         </td>
                     </tr>
                     <tr>
@@ -66,8 +66,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3" class="pb-2">Fund Cluster:
-                            <span class="border-bottom border-dark">---</span>
+                        <td colspan="3" class="pb-2">
+                            <div class="d-flex align-items-center">
+                                <label for="">Fund Cluster: </label>
+                                <span class="border-bottom border-dark m-0 p-0 col-1">
+                                    <input class="pt-0 report-input form-control pb-0" type="number" value=""
+                                        name="fund_cluster" />
+                                </span>
+                            </div>
                         </td>
                         <td colspan="2" class="pb-2">Date:
                             <span class="border-bottom border-dark">
@@ -171,6 +177,17 @@
                                     <td class="fw-bold full-border">Total Cost</td>
                                     <td class="fw-bold full-border">UACS Object Code</td>
                                 </tr>
+                                @php
+                                    $categoryCodes = [
+                                        'Office Supplies Inventory' => '1040401000',
+                                        'Drugs and Medicines Inventory' => '1040406000',
+                                        'Medical, Dental and Laboratory Supplies Inventory' => '1040407000',
+                                        'Agricultural and Marine Supplies Inventory' => '1040409000',
+                                        'Textbooks and Instructional Materials Inventory' => '1040410000',
+                                        'Construction Materials Inventory' => '1040413000',
+                                        'Other Supplies and Materials Inventory' => '1040499000',
+                                    ];
+                                @endphp
                                 @foreach ($recap as $row)
                                     <tr>
                                         <td></td>
@@ -180,7 +197,7 @@
                                         <td></td>
                                         <td>₱ {{ number_format($row['unit_cost'], 2) }}</td>
                                         <td>₱ {{ number_format($row['total_cost'], 2) }}</td>
-                                        <td>---</td>
+                                        <td>{{ $categoryCodes[$row['object_code']] ?? '—' }}</td>
                                     </tr>
                                 @endforeach
                                 <tr>
@@ -204,12 +221,12 @@
                                 <tr>
                                     <td colspan="5" class="text-center">
                                         <input oninput="this.value = this.value.toUpperCase()"
-                                            class="w-100 pt-0 report-input form-control text-center" type="text"
+                                            class="w-100 py-0 report-input form-control text-center" type="text"
                                             value="JEFRY J. TILBE" name="property_custodian" />
                                     </td>
                                     <td colspan="2" class="text-center right-border-none">
                                         <input oninput="this.value = this.value.toUpperCase()"
-                                            class="w-100 pt-0 report-input form-control text-center" type="text"
+                                            class="w-100 py-0 report-input form-control text-center" type="text"
                                             value="RIZA LEAH B. SIANSON" name="accounting_staff" />
                                     </td>
                                     <td colspan="1" class="text-center">

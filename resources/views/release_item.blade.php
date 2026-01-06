@@ -20,14 +20,14 @@
                         @enderror
                     </div>
 
-                    <div class="col-md-3">
+                    {{-- <div class="col-md-3">
                         <label class="form-label">Reference (optional)</label>
                         <input type="text" name="reference" class="form-control @error('reference') is-invalid @enderror"
                             value="{{ old('reference') }}">
                         @error('reference')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     <div class="col-md-3">
                         <label class="form-label">Purpose / No. of Days to Consume</label>

@@ -36,7 +36,7 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>Date</th>
-                                    <th>Reference</th>
+                                    {{-- <th>Reference</th> --}}
                                     <th>Receipt (QTY)</th>
                                     <th>Issue (QTY)</th>
                                     {{-- <th>Type</th> --}}
@@ -50,7 +50,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ \Carbon\Carbon::parse($record->date)->format('F d, Y') }}</td>
-                                        <td>{{ $record->reference ?? '' }}</td>
+                                        {{-- <td>{{ $record->reference ?? '' }}</td> --}}
                                         <td>{{ $record->receipt ?? '' }}</td>
                                         <td>{{ $record->issue ?? '' }}</td>
                                         {{-- <td>
@@ -66,11 +66,11 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" class="text-center">No stock card records found.</td>
+                                        <td colspan="7" class="text-center">No stock card records found.</td>
                                     </tr>
                                 @endforelse
                                 <tr>
-                                    <td colspan="6" class="text-end"><strong class="pe-2">Balance: </strong></td>
+                                    <td colspan="5" class="text-end"><strong class="pe-2">Balance: </strong></td>
                                     <td colspan="2"><strong>{{ $item->quantity }}</strong></td>
                                 </tr>
                             </tbody>

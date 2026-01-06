@@ -12,7 +12,7 @@ class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::orderBy('created_at', 'desc')->get();
+        $items = Item::orderBy('stock_no', 'asc')->get();
         return view('item', compact('items'));
     }
 
@@ -28,7 +28,7 @@ class ItemController extends Controller
             'supplier_name'  => 'required|string|max:255',
             'category'       => 'required|string|max:255',
             'stock_no'       => 'required|string|max:255|unique:items,stock_no',
-            'restock_point'  => 'required|integer',
+            // 'restock_point'  => 'required|integer',
             'unit_cost'      => 'required|numeric',
             'quantity'          => 'required|integer|min:1',
             'unit'           => 'required|string|max:255',
@@ -47,7 +47,7 @@ class ItemController extends Controller
             'supplier_name'   => $request->supplier_name,
             'category'    => $request->category,
             'stock_no'    => $request->stock_no,
-            'restock_point' => $request->restock_point,
+            // 'restock_point' => $request->restock_point,
             'unit_cost'   => $request->unit_cost,
             'quantity'    => $request->quantity,
             'unit'        => $request->unit,
@@ -86,7 +86,7 @@ class ItemController extends Controller
             'supplier_name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'stock_no' => 'required|string|max:255|unique:items,stock_no,' . $request->item_id,
-            'restock_point' => 'required|integer',
+            // 'restock_point' => 'required|integer',
             'unit_cost' => 'required|numeric',
             'stock' => 'nullable|integer',
             'unit' => 'required|string|max:255',
@@ -111,7 +111,7 @@ class ItemController extends Controller
             'supplier_name'   => $request->supplier_name,
             'category'    => $request->category,
             'stock_no'    => $request->stock_no,
-            'restock_point' => $request->restock_point,
+            // 'restock_point' => $request->restock_point,
             'unit_cost'   => $request->unit_cost,
             'quantity'    => $newQty,
             'unit'        => $request->unit,
@@ -158,7 +158,7 @@ class ItemController extends Controller
                 'quantities.*'   => 'required|integer|min:1',
                 'end_user'       => 'required|string',
                 'purpose'        => 'required|string',
-                'reference'      => 'nullable|string',
+                //'reference'      => 'nullable|string',
                 'release_date'   => 'required|date',
             ],
             [
@@ -195,7 +195,7 @@ class ItemController extends Controller
                     'date'         => now()->toDateString(),
                     'end_user'     => $request->end_user,
                     'purpose'      => $request->purpose,
-                    'reference'    => $request->reference,
+                    // 'reference'    => $request->reference,
                     'release_date' => $request->release_date,
                 ]);
             }
@@ -222,12 +222,12 @@ class ItemController extends Controller
         if ($release_date) {
             $releasedItems = Stockcard::where('type', 'OUT')
                 ->whereDate('release_date', $release_date)
-                ->orderBy('created_at', 'desc')
+                ->orderBy('release_date', 'asc')
                 ->with('item')
                 ->get();
         } else {
             $releasedItems = Stockcard::where('type', 'OUT')
-                ->orderBy('created_at', 'desc')
+                ->orderBy('release_date', 'asc')
                 ->with('item')
                 ->get();
         }

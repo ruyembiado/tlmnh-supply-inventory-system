@@ -53,7 +53,7 @@
                 <div class="modal-body">
 
                     <div class="text-center mb-3">
-                        <img src="{{ asset('public/img/sis-icon.png') }}" alt="sis-logo" class="img-fluid" width="150">
+                        <img src="{{ asset('public/img/sis-icon.png') }}" alt="sis-logo" class="img-fluid" width="100">
                     </div>
 
                     <div class="text-center mb-3">

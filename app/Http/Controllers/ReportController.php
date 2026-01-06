@@ -37,6 +37,7 @@ class ReportController extends Controller
                 $unitCost = $group->first()->unit_cost ?? 0;
                 return [
                     'stock_no'  => $group->first()->stock_no,
+                    'object_code'  => $group->first()->category,
                     'quantity'  => $quantity,
                     'unit_cost' => $unitCost,
                     'total_cost' => $quantity * $unitCost,
