@@ -10,7 +10,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
-    public function report_sami(Request $request)
+    public function monthly_report_sami(Request $request)
     {
         $selected_year = $request->input('year') ?? Carbon::now()->year;
         $selected_month = $request->input('month');
@@ -44,7 +44,7 @@ class ReportController extends Controller
                 ];
             });
 
-        return view('report_sami', compact('items', 'recap', 'selected_year', 'selected_month'));
+        return view('report_sami_monthly', compact('items', 'recap', 'selected_year', 'selected_month'));
     }
 
     // public function download_sami_report(Request $request)

@@ -57,7 +57,7 @@
                 <li class="sidebar-item">
                     <a href="{{ url('/release-item') }}" class="sidebar-link">
                         <i class="fas fa-dolly"></i>
-                        <span>Release Item</span>
+                        <span>To be Release Item</span>
                     </a>
                 </li>
                 {{-- <li class="sidebar-item">
@@ -86,7 +86,7 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a href="{{ url('/report-sami?year=' . now()->year . '&month=' . now()->month) }}"
+                    <a href="{{ url('/monthly-report-sami?year=' . now()->year . '&month=' . now()->month) }}"
                         class="sidebar-link">
                         <i class="fas fa-file-lines"></i>
                         <span>Report</span>
@@ -129,8 +129,11 @@
             <nav class="navbar navbar-expand px-4 py-3 bg-theme-secondary">
                 <div class="navbar-collapse collapse">
                     <button class="toggle-btn" type="button">
-                        <i class="fa-solid text-dark fa fa-bars fs-5"></i>
+                        <i class="fa-solid fa-caret-right text-dark icon-right" style="font-size: 30px;"></i>
+                        <i class="fa-solid fa-caret-left text-dark icon-left"
+                            style="font-size: 30px; display: none;"></i>
                     </button>
+
                     <ul class="navbar-nav ms-auto">
                         @auth
                             <span class="m-auto me-1">

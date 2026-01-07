@@ -1,13 +1,14 @@
 $(document).ready(function () {
+    $(".toggle-btn").click(function () {
+        // Toggle sidebar and nav
+        $("#sidebar").toggleClass("expand");
+        $("nav").toggleClass("nav-collapse");
 
-  const hamBurger = document.querySelector(".toggle-btn");
-
-  if (hamBurger) {
-    hamBurger.addEventListener("click", function () {
-      document.querySelector("#sidebar").classList.toggle("expand");
-      document.querySelector("nav").classList.toggle("nav-collapse");
+        // Toggle icons
+        $(this).find(".icon-left").toggle();  // hide/show left icon
+        $(this).find(".icon-right").toggle(); // hide/show right icon
     });
-  }
 
-  $("#dataTable1").DataTable();
+    // Initialize DataTable
+    $("#dataTable1").DataTable();
 });

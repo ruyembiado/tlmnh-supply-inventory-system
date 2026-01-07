@@ -8,7 +8,7 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-start mb-4">
-                <form method="GET" action="{{ route('show.report.sami') }}" class="d-print-none col-md-3">
+                <form method="GET" action="{{ route('show.monthly.report.sami') }}" class="d-print-none col-md-3">
                     <div class="row g-2 align-items-center">
                         <div class="d-flex flex-column col-md-4">
                             <label for="year" class="form-label mb-0">Select Year:</label>
@@ -70,7 +70,7 @@
                             <div class="d-flex align-items-center">
                                 <label for="">Fund Cluster: </label>
                                 <span class="border-bottom border-dark m-0 p-0 col-1">
-                                    <input class="pt-0 report-input form-control pb-0" type="number" value=""
+                                    <input class="pt-0 report-input form-control pb-0 text-center" type="number" value=""
                                         name="fund_cluster" />
                                 </span>
                             </div>
@@ -136,7 +136,7 @@
                                         <td style="border-bottom: none !important;">
                                             {{ \Carbon\Carbon::parse($item->stockcard->first()->release_date)->format('Y-m') }}-{{ sprintf('%03d', $loop->iteration) }}
                                         </td>
-                                        <td style="border-bottom: none !important;">---</td>
+                                        <td style="border-bottom: none !important;">—</td>
                                         <td style="border-bottom: none !important;">{{ $item->stock_no }}</td>
                                         <td style="border-bottom: none !important;" class="text-start">
                                             {{ $item->item_name }}</td>

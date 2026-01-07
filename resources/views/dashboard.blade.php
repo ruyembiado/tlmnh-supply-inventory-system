@@ -172,24 +172,11 @@
                     <div class="text-xs fw-bold text-dark text-uppercase mb-1">
                         Capital Spent per Month ({{ now()->year }})
                     </div>
-                    <canvas id="capitalChart" height="100"></canvas>
+                    <canvas id="capitalChart" height="150"></canvas>
                 </div>
             </div>
         </div>
 
-        <div class="col-xl-6 col-md-12 mb-4">
-            <div class="card shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="text-xs fw-bold text-dark text-uppercase mb-1">
-                        Items Released per Month ({{ now()->year }})
-                    </div>
-                    <canvas id="itemsChart" height="100"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
         <div class="col-xl-6 col-md-12 mb-4">
             <div class="card shadow h-100 py-2">
                 <div class="card-body">
@@ -201,7 +188,31 @@
             </div>
         </div>
 
-        <div class="col-xl-6 col-md-12 mb-4">
+        {{-- <div class="col-xl-6 col-md-12 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs fw-bold text-dark text-uppercase mb-1">
+                        Items Released per Month ({{ now()->year }})
+                    </div>
+                    <canvas id="itemsChart" height="100"></canvas>
+                </div>
+            </div>
+        </div> --}}
+    </div>
+
+    <div class="row">
+        {{-- <div class="col-xl-6 col-md-12 mb-4">
+            <div class="card shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="text-xs fw-bold text-dark text-uppercase mb-1">
+                        Top 10 Released Items ({{ now()->year }})
+                    </div>
+                    <canvas id="topItemsChart"></canvas>
+                </div>
+            </div>
+        </div> --}}
+
+        {{-- <div class="col-xl-6 col-md-12 mb-4">
             <div class="card shadow h-100 py-2">
                 <div class="card-body">
                     <div class="text-xs fw-bold text-dark text-uppercase mb-1">
@@ -210,7 +221,7 @@
                     <canvas id="monthlyTopItemChart"></canvas>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection <!-- End the content section -->
 @push('scripts')
@@ -248,37 +259,37 @@
             }
         });
 
-        const ctxItemReleased = document.getElementById('itemsChart');
-        const ItemData = @json(array_values($monthlyItems));
+        // const ctxItemReleased = document.getElementById('itemsChart');
+        // const ItemData = @json(array_values($monthlyItems));
 
-        new Chart(ctxItemReleased, {
-            type: 'line',
-            data: {
-                labels: [
-                    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-                ],
-                datasets: [{
-                    label: 'Items Released',
-                    data: ItemData,
-                    fill: true,
-                    // borderColor: 'rgba(75, 192, 192, 1)',
-                    // backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            precision: 0
-                        }
-                    }
-                }
-            }
-        });
+        // new Chart(ctxItemReleased, {
+        //     type: 'line',
+        //     data: {
+        //         labels: [
+        //             'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        //             'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        //         ],
+        //         datasets: [{
+        //             label: 'Items Released',
+        //             data: ItemData,
+        //             fill: true,
+        //             // borderColor: 'rgba(75, 192, 192, 1)',
+        //             // backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        //             tension: 0.4
+        //         }]
+        //     },
+        //     options: {
+        //         responsive: true,
+        //         scales: {
+        //             y: {
+        //                 beginAtZero: true,
+        //                 ticks: {
+        //                     precision: 0
+        //                 }
+        //             }
+        //         }
+        //     }
+        // });
 
         const ctxTopItems = document.getElementById('topItemsChart').getContext('2d');
 
@@ -310,40 +321,40 @@
             }
         });
 
-        const ctxMonthlyTop = document.getElementById('monthlyTopItemChart');
+        // const ctxMonthlyTop = document.getElementById('monthlyTopItemChart');
 
-        new Chart(ctxMonthlyTop, {
-            type: 'bar',
-            data: {
-                labels: @json($monthlyTopLabels),
-                datasets: [{
-                    label: 'Top Released Item',
-                    data: @json($monthlyTopData),
-                    borderWidth: 1,
-                    itemNames: @json($monthlyTopItemNames)
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const itemName = context.dataset.itemNames[context.dataIndex];
-                                return itemName + ': ' + context.raw;
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            precision: 0
-                        }
-                    }
-                }
-            }
-        });
+        // new Chart(ctxMonthlyTop, {
+        //     type: 'bar',
+        //     data: {
+        //         labels: @json($monthlyTopLabels),
+        //         datasets: [{
+        //             label: 'Top Released Item',
+        //             data: @json($monthlyTopData),
+        //             borderWidth: 1,
+        //             itemNames: @json($monthlyTopItemNames)
+        //         }]
+        //     },
+        //     options: {
+        //         responsive: true,
+        //         plugins: {
+        //             tooltip: {
+        //                 callbacks: {
+        //                     label: function(context) {
+        //                         const itemName = context.dataset.itemNames[context.dataIndex];
+        //                         return itemName + ': ' + context.raw;
+        //                     }
+        //                 }
+        //             }
+        //         },
+        //         scales: {
+        //             y: {
+        //                 beginAtZero: true,
+        //                 ticks: {
+        //                     precision: 0
+        //                 }
+        //             }
+        //         }
+        //     }
+        // });
     </script>
 @endpush
