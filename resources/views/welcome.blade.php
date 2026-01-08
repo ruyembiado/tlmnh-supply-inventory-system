@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('content')
-    <main class="content px-3 py-4 col-12 home-bg d-flex justify-content-start align-items-center" id="page-top">
+    <main class="{{ auth()->check() ? 'auth' : 'guest' }} content px-3 py-4 col-12 home-bg d-flex justify-content-start align-items-center" id="page-top">
         <div class="container-fluid col-md-10 col-12 m-auto p-0">
 
             {{-- Flash Messages --}}

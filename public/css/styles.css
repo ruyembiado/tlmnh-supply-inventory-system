@@ -32,6 +32,10 @@ main.content {
     height: 100vh;
 }
 
+main.guest.content {
+    min-height: fit-content;
+}
+
 .main {
     display: flex;
     flex-direction: column;

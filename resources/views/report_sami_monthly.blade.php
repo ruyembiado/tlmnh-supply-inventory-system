@@ -10,30 +10,37 @@
             <div class="d-flex justify-content-between align-items-start mb-4">
                 <form method="GET" action="{{ route('show.monthly.report.sami') }}" class="d-print-none col-md-3">
                     <div class="row g-2 align-items-center">
+                        <!-- Year Selection -->
                         <div class="d-flex flex-column col-md-4">
                             <label for="year" class="form-label mb-0">Select Year:</label>
                             <select name="year" id="year" class="form-control form-control-sm"
                                 onchange="this.form.submit()">
                                 @for ($y = date('Y'); $y >= 2024; $y--)
-                                    <option value="{{ $y }}"
-                                        {{ request('year', $selected_year) == $y ? 'selected' : '' }}>{{ $y }}
+                                    <option value="{{ $y }}" {{ request('year') == $y ? 'selected' : '' }}>
+                                        {{ $y }}
                                     </option>
-                                @endfor
+                                @endfor 
                             </select>
                         </div>
+
+                        <!-- Month Selection -->
                         <div class="d-flex flex-column col-md-5">
                             <label for="month" class="form-label mb-0">Select Month:</label>
                             <select name="month" id="month" class="form-control form-control-sm"
                                 onchange="this.form.submit()">
                                 @foreach (range(1, 12) as $month)
-                                    <option value="{{ $month }}" {{ $selected_month == $month ? 'selected' : '' }}>
+                                    <option value="{{ $month }}" {{ request('month') == $month ? 'selected' : '' }}>
                                         {{ \Carbon\Carbon::create()->month($month)->format('F') }}
                                     </option>
                                 @endforeach
+                                 <option value="0" {{ request('month') == 0 ? 'selected' : '' }}>
+                                    Yearly Report
+                                </option>
                             </select>
                         </div>
                     </div>
                 </form>
+
                 <div class="print-buttons d-flex gap-2">
                     <button onclick="printReport()" class="btn btn-sm btn-primary d-print-none">
                         <i class="fas fa-print"></i> Print Report
@@ -51,8 +58,8 @@
                     <tr>
                         <td colspan="8" class="text-center">
                             <h4 class="fw-bold mb-0">REPORT OF SUPPLIES AND MATERIALS ISSUED</h4>
-                            <h5 class="mb-3">{{ \Carbon\Carbon::create()->month($month)->format('F') }}
-                                {{ $selected_year }} JUNIOR HS /SENIOR HS</h5>
+                            <h5 class="mb-3">{{ $selected_month == 0 ? 'Year' : \Carbon\Carbon::create()->month($selected_month)->format('F') }}
+                                {{ $selected_year }} / SENIOR HS</h5>
                         </td>
                     </tr>
                     <tr>
@@ -70,8 +77,8 @@
                             <div class="d-flex align-items-center">
                                 <label for="">Fund Cluster: </label>
                                 <span class="border-bottom border-dark m-0 p-0 col-1">
-                                    <input class="pt-0 report-input form-control pb-0 text-center" type="number" value=""
-                                        name="fund_cluster" />
+                                    <input class="pt-0 report-input form-control pb-0 text-center" type="number"
+                                        value="" name="fund_cluster" />
                                 </span>
                             </div>
                         </td>
@@ -130,13 +137,25 @@
                                         $unitCost = $item->unit_cost ?? 0;
                                         $totalCost = $totalIssued * $unitCost;
                                         $grandTotal += $totalCost;
+
+                                        $categoryCodes = [
+                                            'Office Supplies Inventory' => '1040401000',
+                                            'Drugs and Medicines Inventory' => '1040406000',
+                                            'Medical, Dental and Laboratory Supplies Inventory' => '1040407000',
+                                            'Agricultural and Marine Supplies Inventory' => '1040409000',
+                                            'Textbooks and Instructional Materials Inventory' => '1040410000',
+                                            'Construction Materials Inventory' => '1040413000',
+                                            'Other Supplies and Materials Inventory' => '1040499000',
+                                        ];
                                     @endphp
 
                                     <tr>
                                         <td style="border-bottom: none !important;">
                                             {{ \Carbon\Carbon::parse($item->stockcard->first()->release_date)->format('Y-m') }}-{{ sprintf('%03d', $loop->iteration) }}
                                         </td>
-                                        <td style="border-bottom: none !important;">—</td>
+                                        <td style="border-bottom: none !important;">
+                                            {{ isset($categoryCodes[$item->category]) ? $categoryCodes[$item->category] : '—' }}
+                                        </td>
                                         <td style="border-bottom: none !important;">{{ $item->stock_no }}</td>
                                         <td style="border-bottom: none !important;" class="text-start">
                                             {{ $item->item_name }}</td>

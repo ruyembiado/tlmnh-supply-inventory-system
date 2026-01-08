@@ -12,17 +12,17 @@ class ReportController extends Controller
 {
     public function monthly_report_sami(Request $request)
     {
-        $selected_year = $request->input('year') ?? Carbon::now()->year;
+        $selected_year  = $request->input('year') ?? Carbon::now()->year;
         $selected_month = $request->input('month');
 
-        if ($selected_month) {
-            // filter by specific month
+        // DEFAULT: whole year
+        $startDate = Carbon::createFromDate($selected_year, 1, 1)->startOfYear();
+        $endDate   = $startDate->copy()->endOfYear();
+
+        // IF specific month is selected
+        if (!empty($selected_month) && $selected_month != 0) {
             $startDate = Carbon::createFromDate($selected_year, $selected_month, 1)->startOfMonth();
-            $endDate = $startDate->copy()->endOfMonth();
-        } else {
-            // filter by entire year
-            $startDate = Carbon::createFromDate($selected_year, 1, 1)->startOfYear();
-            $endDate = $startDate->copy()->endOfYear();
+            $endDate   = $startDate->copy()->endOfMonth();
         }
 
         $items = Item::with(['stockcard' => function ($query) use ($startDate, $endDate) {
@@ -35,16 +35,22 @@ class ReportController extends Controller
             ->map(function ($group) {
                 $quantity = $group->sum(fn($i) => $i->stockcard->sum('issue'));
                 $unitCost = $group->first()->unit_cost ?? 0;
+
                 return [
-                    'stock_no'  => $group->first()->stock_no,
-                    'object_code'  => $group->first()->category,
-                    'quantity'  => $quantity,
-                    'unit_cost' => $unitCost,
+                    'stock_no'   => $group->first()->stock_no,
+                    'object_code' => $group->first()->category,
+                    'quantity'   => $quantity,
+                    'unit_cost'  => $unitCost,
                     'total_cost' => $quantity * $unitCost,
                 ];
             });
 
-        return view('report_sami_monthly', compact('items', 'recap', 'selected_year', 'selected_month'));
+        return view('report_sami_monthly', compact(
+            'items',
+            'recap',
+            'selected_year',
+            'selected_month'
+        ));
     }
 
     // public function download_sami_report(Request $request)
