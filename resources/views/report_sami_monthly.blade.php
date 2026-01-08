@@ -59,7 +59,7 @@
                         <td colspan="8" class="text-center">
                             <h4 class="fw-bold mb-0">REPORT OF SUPPLIES AND MATERIALS ISSUED</h4>
                             <h5 class="mb-3">{{ $selected_month == 0 ? 'Year' : \Carbon\Carbon::create()->month($selected_month)->format('F') }}
-                                {{ $selected_year }} / SENIOR HS</h5>
+                                {{ $selected_year }} JUNIOR HS / SENIOR HS</h5>
                         </td>
                     </tr>
                     <tr>
