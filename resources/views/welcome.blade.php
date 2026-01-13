@@ -29,7 +29,7 @@
                     @if (!auth()->check())
                         <div class="auth-buttons d-flex gap-3">
                             <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#loginModal">
-                                Login
+                                <b>Login</b>
                             </button>
                         </div>
                     @endif
