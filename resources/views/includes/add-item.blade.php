@@ -80,7 +80,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-6 col-xl-4 mb-3">
+                        {{-- <div class="col-md-6 col-xl-4 mb-3">
                             <label for="stock_no" class="form-label">Stock No.</label>
                             <input type="text" name="stock_no" id="stock_no"
                                 class="form-control @error('stock_no', 'add') is-invalid @enderror"
@@ -88,7 +88,7 @@
                             @error('stock_no', 'add')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> --}}
 
                         {{-- <div class="col-md-6 col-xl-4 mb-3">
                             <label for="restock_point" class="form-label">Restock Point</label>

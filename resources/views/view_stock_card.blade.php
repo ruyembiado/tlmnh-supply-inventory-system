@@ -42,7 +42,7 @@
                                     {{-- <th>Type</th> --}}
                                     <th>Office/End-User</th>
                                     <th>Balance</th>
-                                    <th>Purpose/ No. of days to consume</th>
+                                    <th>Purpose</th>
                                 </tr>
                             </thead>
                             <tbody>

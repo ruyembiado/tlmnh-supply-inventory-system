@@ -100,7 +100,7 @@
                             </div>
 
                             <div class="col-md-3">
-                                <label class="form-label">Purpose / No. of Days to Consume</label>
+                                <label class="form-label">Purpose</label>
                                 <textarea name="purposes[]" class="form-control @error("purposes.$index") is-invalid @enderror"
                                     rows="2">{{ old("purposes.$index") }}</textarea>
 

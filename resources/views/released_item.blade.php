@@ -40,7 +40,7 @@
                             {{-- <th>Category</th> --}}
                             <th>Quantity</th>
                             <th>Unit</th>
-                            <th>Purpose / No. of Days to Consume</th>
+                            <th>Purpose</th>
                             <th>Office/End-User</th>
                             <th>Release Date</th>
                             {{-- <th>Action</th> --}}

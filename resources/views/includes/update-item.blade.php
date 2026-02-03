@@ -37,7 +37,7 @@
                             @enderror
                         </div>
 
-                        <div class="col-md-4 mb-3">
+                        {{-- <div class="col-md-4 mb-3">
                             <label class="form-label">Category</label>
 
                             <select name="category"
@@ -71,7 +71,7 @@
                             @error('category', 'update')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> --}}
 
                         {{-- <div class="col-md-4 mb-3">
                             <label for="restock_point" class="form-label">Restock Point</label>
@@ -82,7 +82,7 @@
                             @enderror
                         </div> --}}
 
-                        <div class="col-md-4 mb-3">
+                        {{-- <div class="col-md-4 mb-3">
                             <label class="form-label">Stock No.</label>
                             <input type="text" name="stock_no"
                                 class="form-control @error('stock_no', 'update') is-invalid @enderror"
@@ -90,7 +90,7 @@
                             @error('stock_no', 'update')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> --}}
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Unit</label>

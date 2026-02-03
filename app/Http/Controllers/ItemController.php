@@ -12,7 +12,7 @@ class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::orderBy('stock_no', 'asc')->get();
+        $items = Item::orderBy('created_at', 'desc')->get();
         return view('item', compact('items'));
     }
 
@@ -24,16 +24,13 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'item_name'      => 'required|string|max:255',
-            'supplier_name'  => 'required|string|max:255',
-            'category'       => 'required|string|max:255',
-            'stock_no'       => 'required|string|max:255|unique:items,stock_no',
-            // 'restock_point'  => 'required|integer',
-            'unit_cost'      => 'required|numeric',
-            'quantity'          => 'required|integer|min:1',
-            'unit'           => 'required|string|max:255',
-            'description'    => 'nullable|string',
-            // 'remarks' => 'nullable|string',
+            'item_name'     => 'required|string|max:255',
+            'supplier_name' => 'required|string|max:255',
+            'category'      => 'required|string|max:255',
+            'unit_cost'     => 'required|numeric',
+            'quantity'      => 'required|integer|min:1',
+            'unit'          => 'required|string|max:255',
+            'description'   => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
@@ -42,29 +39,46 @@ class ItemController extends Controller
                 ->withInput();
         }
 
+        $words = explode(' ', $request->category);
+        $initials = '';
+        foreach ($words as $word) {
+            $initials .= strtoupper(substr($word, 0, 1));
+        }
+
+        $lastItem = Item::where('stock_no', 'like', $initials . '-%')
+            ->orderBy('stock_no', 'desc')
+            ->first();
+
+        if ($lastItem) {
+            $lastNumber = (int) substr($lastItem->stock_no, strlen($initials) + 1);
+            $newNumber = str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
+        } else {
+            $newNumber = '001';
+        }
+
+        $stock_no = $initials . '-' . $newNumber;
+
         $item = Item::create([
-            'item_name'   => $request->item_name,
-            'supplier_name'   => $request->supplier_name,
-            'category'    => $request->category,
-            'stock_no'    => $request->stock_no,
-            // 'restock_point' => $request->restock_point,
-            'unit_cost'   => $request->unit_cost,
-            'quantity'    => $request->quantity,
-            'unit'        => $request->unit,
-            'description' => $request->description,
-            // 'remarks'     => $request->remarks,
+            'item_name'     => $request->item_name,
+            'supplier_name' => $request->supplier_name,
+            'category'      => $request->category,
+            'stock_no'      => $stock_no,
+            'unit_cost'     => $request->unit_cost,
+            'quantity'      => $request->quantity,
+            'unit'          => $request->unit,
+            'description'   => $request->description,
         ]);
 
         StockCard::create([
             'item_id'  => $item->id,
             'type'     => 'IN',
-            'receipt' => $item->quantity,
+            'receipt'  => $item->quantity,
             'balance'  => $item->quantity,
             'date'     => now()->toDateString(),
-            'purpose' => 'Initial stock',
+            'purpose'  => 'Initial stock',
         ]);
 
-        return redirect()->back()->with('success', 'Item added successfully.');
+        return redirect()->back()->with('success', "Item added successfully. Stock No: $stock_no");
     }
 
     public function edit($id)
@@ -84,8 +98,8 @@ class ItemController extends Controller
         $validator = Validator::make($request->all(), [
             'item_name' => 'required|string|max:255',
             'supplier_name' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
-            'stock_no' => 'required|string|max:255|unique:items,stock_no,' . $request->item_id,
+            // 'category' => 'required|string|max:255',
+            // 'stock_no' => 'required|string|max:255|unique:items,stock_no,' . $request->item_id,
             // 'restock_point' => 'required|integer',
             'unit_cost' => 'required|numeric',
             'stock' => 'nullable|integer',
@@ -109,8 +123,8 @@ class ItemController extends Controller
         $item->update([
             'item_name'   => $request->item_name,
             'supplier_name'   => $request->supplier_name,
-            'category'    => $request->category,
-            'stock_no'    => $request->stock_no,
+            // 'category'    => $request->category,
+            // 'stock_no'    => $request->stock_no,
             // 'restock_point' => $request->restock_point,
             'unit_cost'   => $request->unit_cost,
             'quantity'    => $newQty,
