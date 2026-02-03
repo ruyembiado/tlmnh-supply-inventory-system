@@ -101,7 +101,7 @@
 
                             <div class="col-md-3">
                                 <label class="form-label">Purpose</label>
-                                <textarea name="purposes[]" class="form-control @error("purposes.$index") is-invalid @enderror"
+                                <textarea name="purposes[]" class="form-control purpose-input @error("purposes.$index") is-invalid @enderror"
                                     rows="2">{{ old("purposes.$index") }}</textarea>
 
                                 @error("purposes.$index")
@@ -158,6 +158,7 @@
 
                 row.find('select').val('');
                 row.find('.quantity-input').val('');
+                row.find('.purpose-input').val('');
                 row.find('.remaining-stock').text('Remaining stock: 0');
                 row.find('.btn-remove-item').removeClass('d-none');
 
